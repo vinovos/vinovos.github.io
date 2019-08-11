@@ -253,6 +253,479 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/11/python-requests库使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/11/python-requests库使用/" itemprop="url">python requests库使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T20:16:52+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/requests/" itemprop="url" rel="index">
+                    <span itemprop="name">requests</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://2.python-requests.org/en/master/" target="_blank" rel="noopener">官方文档</a></p>
+<h3 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h3><h3 id="requets支持客户端私钥加密-requests-support-client-encrypt-key"><a href="#requets支持客户端私钥加密-requests-support-client-encrypt-key" class="headerlink" title="requets支持客户端私钥加密 requests support client encrypt key"></a>requets支持客户端私钥加密 requests support client encrypt key</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> requests.adapters <span class="keyword">import</span> HTTPAdapter</span><br><span class="line"><span class="keyword">from</span> urllib3.util.ssl_ <span class="keyword">import</span> create_urllib3_context</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SSLAdapter</span><span class="params">(HTTPAdapter)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, certfile, keyfile, password=None, *args, **kwargs)</span>:</span></span><br><span class="line">        self._certfile = certfile</span><br><span class="line">        self._keyfile = keyfile</span><br><span class="line">        self._password = password</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_poolmanager</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).init_poolmanager(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">proxy_manager_for</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).proxy_manager_for(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_add_ssl_context</span><span class="params">(self, kwargs)</span>:</span></span><br><span class="line">        context = create_urllib3_context()</span><br><span class="line">        context.load_cert_chain(certfile=self._certfile,</span><br><span class="line">                                keyfile=self._keyfile,</span><br><span class="line">                                password=str(self._password))</span><br><span class="line">        kwargs[<span class="string">'ssl_context'</span>] = context</span><br><span class="line"></span><br><span class="line">session = requests.Session()</span><br><span class="line">session.mount(<span class="string">'https://'</span>, SSLAdapter(<span class="string">r'cert/client.crt'</span>, <span class="string">r"cert/client-enc.key"</span>, <span class="string">'123456'</span>))</span><br><span class="line">r = session.get(<span class="string">'https://127.0.0.1:5000'</span>, verify=<span class="string">r'cert/ca.crt'</span>)</span><br><span class="line">print(session.get_adapter(<span class="string">'https://127.0.0.1:5000'</span>))</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://stackoverflow.com/questions/51002776/private-encrypted-key-workaround-with-requests-ca-certificate" target="_blank" rel="noopener">Private Encrypted Key Workaround with Requests</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/11/flask使用https-双向认证/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/11/flask使用https-双向认证/" itemprop="url">flask/python使用https(双向认证)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T17:12:55+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/flask/https/" itemprop="url" rel="index">
+                    <span itemprop="name">https</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="flask使用https"><a href="#flask使用https" class="headerlink" title="flask使用https"></a>flask使用https</h3><p>可以看到主要通过对ssl_context进行赋值，来启用https</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">cert_path = <span class="string">r'cert'</span></span><br><span class="line"><span class="meta">@app.route("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello World!"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run(ssl_context=(<span class="string">r'cert/server.crt'</span>, <span class="string">r'cert/server.key'</span>))</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/11/flask使用https-双向认证/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/10/windows优化及软件推荐/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/10/windows优化及软件推荐/" itemprop="url">windows优化及软件推荐</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-10T22:25:20+08:00">
+                2019-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/windows优化/" itemprop="url" rel="index">
+                    <span itemprop="name">windows优化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="开机速度优化"><a href="#开机速度优化" class="headerlink" title="开机速度优化"></a>开机速度优化</h3><p>win键+R打开输入，然后输入msconfig，打开启动项设置</p>
+<img src="/2019/08/10/windows优化及软件推荐/windows优化1.png" title="引导项设置">
+<p>同时，图片里面的服务和启动里面<strong>不需要</strong>的东西也禁用掉</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/10/windows优化及软件推荐/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/07/linux-python安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -500,15 +973,16 @@
 
       
         
-          
-            <h2 id="安装增强功能"><a href="#安装增强功能" class="headerlink" title="安装增强功能"></a>安装增强功能</h2><p>虚拟机系统:centos7</p>
+          <h2 id="安装增强功能"><a href="#安装增强功能" class="headerlink" title="安装增强功能"></a>安装增强功能</h2><p>虚拟机系统:centos7</p>
 <h3 id="出现错误"><a href="#出现错误" class="headerlink" title="出现错误"></a>出现错误</h3><p>安装完成操作系统之后，之后点击设备，安装增强功能会报错<br>提示 &gt; 未能加载虚拟光盘(路径\VBoxGuestAdditions.iso)<br>解决办法：点击“设备”——“分配光驱”——“移除光盘”，将自动加载的光盘去掉,然后重新点击安装增强功能</p>
 <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p><code>dhclient</code> 命令，在dbox配置好网络之后，使用此命令来让centos7获取ip地址<br>使用yum update的目的是为了可以安装到对应的kernel-devel</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum install gcc</span><br><span class="line">yum install kernel-devel-2.6.32-504.el6.x86_64</span><br><span class="line">yum install bzip2</span><br></pre></td></tr></table></figure>
-
-<p>notes: yum update之后可能会升级内核，会让系统中出现两个内核，此时需要重启，并使用uname -r确定是否使用了新内核<br>  如果使用了新内核，那么旧内核可以通过yum remove 来移除</p>
-<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /mnt/cdrom</span><br><span class="line">mount /dev/sr0 /mnt/cdrom</span><br><span class="line">/mnt/cdrom/runasroot.sh</span><br><span class="line">VboxLinuxAddtions.run</span><br></pre></td></tr></table></figure>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/07/virtualbox-使用指南/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -574,7 +1048,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/07/centos-安装-升级glibc/" itemprop="url">centos 安装/升级glibc</a></h1>
+                <a class="post-title-link" href="/2019/08/07/centos-安装-升级glibc/" itemprop="url">centos 安装/升级glibc（失败）</a></h1>
         
 
         <div class="post-meta">
@@ -658,16 +1132,14 @@
 
       
         
-          
-            <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz</span><br><span class="line">tar zxvf glibc-2.23.tar.gz</span><br><span class="line"><span class="built_in">cd</span> glibc-2.23</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">../configure --prefix=/opt/glibc-2.23</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/opt/glibc-2.23/lib</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://github.com/mind/wheels/issues/7" target="_blank" rel="noopener">Cannot run on CentOS with glibc 2.17</a><br>安装完成之后的压缩包<br>路径：/2019/08/07/centos-安装-升级glibc/glibc-2.23-install.tar.gz</p>
-<a href="/2019/08/07/centos-安装-升级glibc/glibc-2.23-install.tar.gz" title="编译的压缩包">编译的压缩包</a>
-
-
-<p><a href="https://pkgs.org/" target="_blank" rel="noopener">https://pkgs.org/</a></p>
-
-          
+          <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz</span><br><span class="line">tar zxvf glibc-2.23.tar.gz</span><br><span class="line"><span class="built_in">cd</span> glibc-2.23</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">../configure --prefix=/opt/glibc-2.23</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/opt/glibc-2.23/lib</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/07/centos-安装-升级glibc/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -806,11 +1278,15 @@
 
       
         
-          
-            <h3 id="windows安装"><a href="#windows安装" class="headerlink" title="windows安装"></a>windows安装</h3><p><a href="https://tecadmin.net/install-openssl-on-windows/" target="_blank" rel="noopener">install-openssl-on-windows</a></p>
+          <h3 id="windows安装"><a href="#windows安装" class="headerlink" title="windows安装"></a>windows安装</h3><p><a href="https://tecadmin.net/install-openssl-on-windows/" target="_blank" rel="noopener">install-openssl-on-windows</a></p>
 <h3 id="生成并加解密私钥公钥"><a href="#生成并加解密私钥公钥" class="headerlink" title="生成并加解密私钥公钥"></a>生成并加解密私钥公钥</h3><p>生成2048位rsa私钥  Generate a 2048 bit RSA Key<br><code>openssl genrsa -out private.key 2048</code><br>生成2048位rsa私钥(aes256加密后) Generate a 2048 bit RSA Key with passphrase<br><code>openssl genrsa -aes256 -out private.key 2048</code><br>导出rsa公钥  Export the RSA Public Key to a File<br><code>openssl rsa -in private.key -outform PEM -pubout -out public.pem</code><br>openssl加密生成后的私钥 add a passphrase<br><code>openssl rsa -aes256 -in private.key -out encrypted.key</code><br>openssl解密加密后的私钥 remove a passphrase<br><code>openssl rsa -in encrypted.key -out private.key</code></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/06/openssl使用指南/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -960,16 +1436,16 @@
 
       
         
-          
-            <h3 id="python读取私钥"><a href="#python读取私钥" class="headerlink" title="python读取私钥"></a>python读取私钥</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> serialization</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"private.key"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> key_file:</span><br><span class="line">    private_key = serialization.load_pem_private_key(</span><br><span class="line">        key_file.read(),</span><br><span class="line">        password=<span class="string">b'123456'</span>,</span><br><span class="line">        backend=default_backend() </span><br><span class="line">    )</span><br><span class="line">    print(str(private_key))</span><br></pre></td></tr></table></figure>
+          <h3 id="python读取加密私钥"><a href="#python读取加密私钥" class="headerlink" title="python读取加密私钥"></a>python读取加密私钥</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> serialization</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"private.key"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> key_file:</span><br><span class="line">    private_key = serialization.load_pem_private_key(</span><br><span class="line">        key_file.read(),</span><br><span class="line">        password=<span class="string">b'123456'</span>,</span><br><span class="line">        backend=default_backend() </span><br><span class="line">    )</span><br><span class="line">    print(str(private_key))</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://stackoverflow.com/questions/46850665/how-to-decrypt-rsa-encrypted-file-via-php-and-openssl-with-pyopenssl" target="_blank" rel="noopener">how-to-decrypt-rsa-encrypted-file-via-php-and-openssl-with-pyopenssl</a></p>
-<h3 id="python对称加解密-aes"><a href="#python对称加解密-aes" class="headerlink" title="python对称加解密(aes)"></a>python对称加解密(aes)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives.ciphers <span class="keyword">import</span> Cipher, algorithms, modes</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> padding</span><br><span class="line"></span><br><span class="line">padder = padding.PKCS7(<span class="number">128</span>).padder()</span><br><span class="line">unpadder = padding.PKCS7(<span class="number">128</span>).unpadder()</span><br><span class="line">backend = default_backend()</span><br><span class="line">key = os.urandom(<span class="number">32</span>)</span><br><span class="line">iv = os.urandom(<span class="number">16</span>)</span><br><span class="line">cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend)</span><br><span class="line">encryptor = cipher.encryptor()</span><br><span class="line">ct = encryptor.update(<span class="string">b"a secret message ghhag"</span>) + padder.finalize()</span><br><span class="line">decryptor = cipher.decryptor()</span><br><span class="line">data1 = unpadder.update(ct) + unpadder.finalize()</span><br><span class="line">dct = decryptor.update(data1)</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/" target="_blank" rel="noopener">Symmetric encryption</a><br><a href="https://cryptography.io/en/latest/hazmat/primitives/padding/" target="_blank" rel="noopener">Symmetric Padding</a></p>
-<h2 id="中英文对照表"><a href="#中英文对照表" class="headerlink" title="中英文对照表"></a>中英文对照表</h2><p>Asymmetric algorithms   非对称加解密<br>Symmetric encryption    对称加密</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/06/python加解密/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1119,8 +1595,7 @@
 
       
         
-          
-            <h2 id="电脑升级"><a href="#电脑升级" class="headerlink" title="电脑升级"></a>电脑升级</h2><h3 id="产品型号"><a href="#产品型号" class="headerlink" title="产品型号"></a>产品型号</h3><p>acer VN7-591G-55N2 (aspire V15 nitro)</p>
+          <h2 id="电脑升级"><a href="#电脑升级" class="headerlink" title="电脑升级"></a>电脑升级</h2><h3 id="产品型号"><a href="#产品型号" class="headerlink" title="产品型号"></a>产品型号</h3><p>acer VN7-591G-55N2 (aspire V15 nitro)</p>
 <h3 id="产品调研"><a href="#产品调研" class="headerlink" title="产品调研"></a>产品调研</h3><p>VN7-591G 可以扩展一个M.2 2280的ssd和DDR3L的内存</p>
 <table>
 <thead>
@@ -1157,11 +1632,13 @@
 <blockquote>
 <p>VN7-591G的外部接口包含3个USB3.0接口， 1个读卡器接口，1个音频接口，1个RJ45网线接口和1个HDMI接口。机器无内置光驱，另外两个VN7型号有光驱接口，但不是所有版本均采用。内部接口包含2个内存插槽，1个2.5寸SATA3接口（7mm厚度），1个M.2 2280接口（SATA 6Gbps速率）<del>和1个M.2 2230接口（PCI-E 1x）</del>。CPU和显卡直接封装在主板上，不可更换。此外M2.2280接口只有80mm规格的固定位置，如果选购半高40mm的固态硬盘将无法直接固定</p>
 </blockquote>
-<p>使用软件(HWiNFO64) 发现不支持NVME接口</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://product.suning.com/0070074309/129673827.html" target="_blank" rel="noopener">产品链接及详情</a><br><a href="https://cn.answers.acer.com/app/answers/detail/a_id/47392/~/acer%E5%A4%9A%E7%A1%AC%E7%9B%98%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%A1%AC%E7%9B%98%E6%8E%A5%E5%8F%A3%E8%A7%84%E6%A0%BC%E5%AF%B9%E7%85%A7%E8%A1%A8" target="_blank" rel="noopener">Acer多硬盘笔记本硬盘接口规格对照表</a><br><a href="https://cn.answers.acer.com/app/answers/detail/a_id/29422" target="_blank" rel="noopener">Acer 常见笔记本产品内存扩展对照表</a><br><a href="https://new.qq.com/omn/20180620/20180620A1EFGT.html" target="_blank" rel="noopener">笔记本电脑能不能用NVMe固态硬盘？教你简单一招判断</a></p>
-<h3 id="迁移系统"><a href="#迁移系统" class="headerlink" title="迁移系统"></a>迁移系统</h3><p><a href="https://zhuanlan.zhihu.com/p/35773840" target="_blank" rel="noopener">如何安全快速的迁移你的系统到固态硬盘</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/02/电脑配置及升级/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1311,317 +1788,14 @@
 
       
         
-          
-            <h2 id="git使用指南"><a href="#git使用指南" class="headerlink" title="git使用指南"></a>git使用指南</h2><h3 id="git创建新目录并提交至远程仓库"><a href="#git创建新目录并提交至远程仓库" class="headerlink" title="git创建新目录并提交至远程仓库"></a>git创建新目录并提交至远程仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m <span class="string">"first commit"</span></span><br><span class="line">git remote add origin https://github.com/vinovos/git-pages-source.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-<h3 id="git-add命令"><a href="#git-add命令" class="headerlink" title="git add命令"></a>git add命令</h3><p>git add xx命令可以将xx文件添加到暂存区<br>如果有很多改动可以通过 <code>git add -A</code>来一次添加所有改变的文件。</p>
-<ul>
-<li>git add -A  提交所有变化</li>
-<li>git add -u  提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)</li>
-<li>git add .  提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件<br>notes: git版本不同会的命令有不同的解释<br><a href="https://blog.csdn.net/leorx01/article/details/72358401" target="_blank" rel="noopener">git add -A 和 git add . 的区别</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/01/使用hexo-next/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/01/使用hexo-next/" itemprop="url">使用hexo+next</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-01T22:17:52+08:00">
-                2019-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/next/" itemprop="url" rel="index">
-                    <span itemprop="name">next</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="hexo-nex"><a href="#hexo-nex" class="headerlink" title="hexo+nex"></a>hexo+nex</h2><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">hexo官网文档</a><br><a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">next文档</a></p>
-<h3 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h3><ul>
-<li>将hexo博客目录下的source上传到git新建工程，方便保存原始博客内容</li>
-</ul>
-<h3 id="碰见问题"><a href="#碰见问题" class="headerlink" title="碰见问题"></a>碰见问题</h3><p>在执行 hexo deploy 后,出现 error deployer not found:git<br>默认情况下，在哪个文件夹下运行npm，npm就在当前目录创建一个文件夹node_modules,<br>然后将要安装的程序安装到文件夹node_modules里面，所以必须在hexo目录下执行<br><code>npm install hexo-deployer-git --save</code></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="noopener">手把手教你用Hexo+Github 搭建属于自己的博客</a><br><a href="https://linlif.github.io/2017/05/27/Hexo%E4%BD%BF%E7%94%A8%E6%94%BB%E7%95%A5-%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E5%8F%8A%E6%A0%87%E7%AD%BE/" target="_blank" rel="noopener">Hexo使用攻略-添加分类及标签</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/01/python路径/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/01/python路径/" itemprop="url">python路径</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-01T21:58:12+08:00">
-                2019-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="python路径"><a href="#python路径" class="headerlink" title="python路径"></a>python路径</h2><p>（存疑）安装python三方依赖源码时，使用make，如果指定了include路径，需要注意，gcc不识别子目录，必须指定到具体目录<br><a href="https://blog.csdn.net/yasi_xi/article/details/10590263" target="_blank" rel="noopener">查看编译器的默认include路径</a><br><a href="https://blog.csdn.net/crylearner/article/details/17013187" target="_blank" rel="noopener">C/C++ 头文件以及库的搜索路径</a><br><a href="https://wxnacy.com/2017/08/15/python-2017-08-15-config-pythonpath/" target="_blank" rel="noopener">python 配置PYTHONPATH(了解python导入模块搜索路径运作原理)</a><br><a href="https://frostming.com/2019/03-13/where-do-your-packages-go" target="_blank" rel="noopener">你的 Python 包都装到哪了？</a><br><a href="https://leemendelowitz.github.io/blog/how-does-python-find-packages.html" target="_blank" rel="noopener">How does python find packages?</a><br><a href="https://stackoverflow.com/questions/25583680/when-how-to-change-python-sys-prefix-from-usr-when-site-packages-is-in-usr-loc" target="_blank" rel="noopener">更改python默认的prefix</a></p>
-
-          
+          <h2 id="git使用指南"><a href="#git使用指南" class="headerlink" title="git使用指南"></a>git使用指南</h2><h3 id="git创建新目录并提交至远程仓库"><a href="#git创建新目录并提交至远程仓库" class="headerlink" title="git创建新目录并提交至远程仓库"></a>git创建新目录并提交至远程仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m <span class="string">"first commit"</span></span><br><span class="line">git remote add origin https://github.com/vinovos/git-pages-source.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/01/git使用指南/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1658,6 +1832,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1701,7 +1879,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1712,7 +1890,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1723,7 +1901,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1733,6 +1911,16 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vinovos@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -1920,6 +2108,19 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
 
 
 

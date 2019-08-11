@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="vinovos">
 <meta property="og:description" content="安装增强功能虚拟机系统:centos7 出现错误安装完成操作系统之后，之后点击设备，安装增强功能会报错提示 &amp;gt; 未能加载虚拟光盘(路径\VBoxGuestAdditions.iso)解决办法：点击“设备”——“分配光驱”——“移除光盘”，将自动加载的光盘去掉,然后重新点击安装增强功能 准备工作dhclient 命令，在dbox配置好网络之后，使用此命令来让centos7获取ip地址使用yum">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-07T14:33:33.706Z">
+<meta property="og:updated_time" content="2019-08-10T14:57:16.943Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="virtualbox 使用指南">
 <meta name="twitter:description" content="安装增强功能虚拟机系统:centos7 出现错误安装完成操作系统之后，之后点击设备，安装增强功能会报错提示 &amp;gt; 未能加载虚拟光盘(路径\VBoxGuestAdditions.iso)解决办法：点击“设备”——“分配光驱”——“移除光盘”，将自动加载的光盘去掉,然后重新点击安装增强功能 准备工作dhclient 命令，在dbox配置好网络之后，使用此命令来让centos7获取ip地址使用yum">
@@ -318,6 +318,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/07/virtualbox-使用指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/08/07/virtualbox-使用指南/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -345,6 +355,7 @@
         <h2 id="安装增强功能"><a href="#安装增强功能" class="headerlink" title="安装增强功能"></a>安装增强功能</h2><p>虚拟机系统:centos7</p>
 <h3 id="出现错误"><a href="#出现错误" class="headerlink" title="出现错误"></a>出现错误</h3><p>安装完成操作系统之后，之后点击设备，安装增强功能会报错<br>提示 &gt; 未能加载虚拟光盘(路径\VBoxGuestAdditions.iso)<br>解决办法：点击“设备”——“分配光驱”——“移除光盘”，将自动加载的光盘去掉,然后重新点击安装增强功能</p>
 <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p><code>dhclient</code> 命令，在dbox配置好网络之后，使用此命令来让centos7获取ip地址<br>使用yum update的目的是为了可以安装到对应的kernel-devel</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum install gcc</span><br><span class="line">yum install kernel-devel-2.6.32-504.el6.x86_64</span><br><span class="line">yum install bzip2</span><br></pre></td></tr></table></figure>
 
 <p>notes: yum update之后可能会升级内核，会让系统中出现两个内核，此时需要重启，并使用uname -r确定是否使用了新内核<br>  如果使用了新内核，那么旧内核可以通过yum remove 来移除</p>
@@ -378,8 +389,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/07/centos-安装-升级glibc/" rel="next" title="centos 安装/升级glibc">
-                <i class="fa fa-chevron-left"></i> centos 安装/升级glibc
+              <a href="/2019/08/07/centos-安装-升级glibc/" rel="next" title="centos 安装/升级glibc（失败）">
+                <i class="fa fa-chevron-left"></i> centos 安装/升级glibc（失败）
               </a>
             
           </div>
@@ -418,6 +429,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
 
   
 
@@ -467,7 +485,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -478,7 +496,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -489,7 +507,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -499,6 +517,16 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vinovos@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -706,6 +734,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'vinovos',
+            repo: 'vinovos.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '25f461503cde1bfd9d969fa122b9632d583d77e2',
+            
+                client_id: '33d4e5eaaacbe82894f0'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 

@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="vinovos">
 <meta property="og:description" content="windows安装install-openssl-on-windows 生成并加解密私钥公钥生成2048位rsa私钥  Generate a 2048 bit RSA Keyopenssl genrsa -out private.key 2048生成2048位rsa私钥(aes256加密后) Generate a 2048 bit RSA Key with passphraseopenssl ge">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-06T14:48:49.503Z">
+<meta property="og:updated_time" content="2019-08-11T14:02:25.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="openssl使用指南">
 <meta name="twitter:description" content="windows安装install-openssl-on-windows 生成并加解密私钥公钥生成2048位rsa私钥  Generate a 2048 bit RSA Keyopenssl genrsa -out private.key 2048生成2048位rsa私钥(aes256加密后) Generate a 2048 bit RSA Key with passphraseopenssl ge">
@@ -318,6 +318,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/06/openssl使用指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/08/06/openssl使用指南/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -344,6 +354,20 @@
       
         <h3 id="windows安装"><a href="#windows安装" class="headerlink" title="windows安装"></a>windows安装</h3><p><a href="https://tecadmin.net/install-openssl-on-windows/" target="_blank" rel="noopener">install-openssl-on-windows</a></p>
 <h3 id="生成并加解密私钥公钥"><a href="#生成并加解密私钥公钥" class="headerlink" title="生成并加解密私钥公钥"></a>生成并加解密私钥公钥</h3><p>生成2048位rsa私钥  Generate a 2048 bit RSA Key<br><code>openssl genrsa -out private.key 2048</code><br>生成2048位rsa私钥(aes256加密后) Generate a 2048 bit RSA Key with passphrase<br><code>openssl genrsa -aes256 -out private.key 2048</code><br>导出rsa公钥  Export the RSA Public Key to a File<br><code>openssl rsa -in private.key -outform PEM -pubout -out public.pem</code><br>openssl加密生成后的私钥 add a passphrase<br><code>openssl rsa -aes256 -in private.key -out encrypted.key</code><br>openssl解密加密后的私钥 remove a passphrase<br><code>openssl rsa -in encrypted.key -out private.key</code></p>
+<a id="more"></a>
+<h3 id="生成CA及终端用户证书"><a href="#生成CA及终端用户证书" class="headerlink" title="生成CA及终端用户证书"></a>生成CA及终端用户证书</h3><ul>
+<li>生成ca证书签发请求，得到ca.csr<br>私钥和公钥的生成看上面<br>有配置文件方式：<br><code>openssl req -new -sha256 -out ca.csr -key ca.key -config ca.conf</code><br>无配置文件方式：<br><code>openssl req -new -sha256 -out ca.csr -key ca.key</code></li>
+<li>生成ca根证书，得到ca.crt(也可以用来做链接，为自签名)<br><code>openssl x509 -req -days 3650 -in ca.csr -signkey ca.key -out ca.crt</code><h3 id="生成终端用户证书"><a href="#生成终端用户证书" class="headerlink" title="生成终端用户证书"></a>生成终端用户证书</h3></li>
+<li>生成证书签发请求，得到server.csr<br><code>openssl req -new -sha256 -out server.csr -key server.key -config server.conf</code></li>
+<li>用CA证书生成终端用户证书，得到server.crt<br><code>openssl x509 -req -days 3650 -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt -extensions v3_req -extfile server.conf</code><br>ca.conf #证书配置，可以用来生成csr文件，当配置有-config选项<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[ req ]</span><br><span class="line">default_bits       = 4096</span><br><span class="line">distinguished_name = req_distinguished_name</span><br><span class="line"></span><br><span class="line">[ req_distinguished_name ]</span><br><span class="line">countryName                 = Country Name (2 letter code)</span><br><span class="line">countryName_default         = CN</span><br><span class="line">stateOrProvinceName         = State or Province Name (full name)</span><br><span class="line">stateOrProvinceName_default = shanxi</span><br><span class="line">localityName                = Locality Name (eg, city)</span><br><span class="line">localityName_default        = xian</span><br><span class="line">organizationName            = Organization Name (eg, company)</span><br><span class="line">organizationName_default    = vinovos</span><br><span class="line">commonName                  = Common Name (e.g. server FQDN or YOUR name)</span><br><span class="line">commonName_max              = 64</span><br><span class="line">commonName_default          = vinovos CA Test</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>server.conf #证书配置，可以用来生成csr文件，当配置有-config选项<br>alt_names可以保证请求里面的所有的域名或地址时，都会被认为证书匹配<br>注意[ alt_names ]的空格</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[ req ]</span></span><br><span class="line"><span class="attr">default_bits</span>       = <span class="number">2048</span></span><br><span class="line"><span class="attr">distinguished_name</span> = req_distinguished_name</span><br><span class="line"><span class="attr">req_extensions</span>     = v3_req</span><br><span class="line"></span><br><span class="line"><span class="section">[ req_distinguished_name ]</span></span><br><span class="line"><span class="attr">countryName</span>                 = Country Name (<span class="number">2</span> letter code)</span><br><span class="line"><span class="attr">countryName_default</span>         = CN</span><br><span class="line"><span class="attr">stateOrProvinceName</span>         = State or Province Name (full name)</span><br><span class="line"><span class="attr">stateOrProvinceName_default</span> = shanxi</span><br><span class="line"><span class="attr">localityName</span>                = Locality Name (eg, city)</span><br><span class="line"><span class="attr">localityName_default</span>        = xian</span><br><span class="line"><span class="attr">organizationName</span>            = Organization Name (eg, company)</span><br><span class="line"><span class="attr">organizationName_default</span>    = vinovos</span><br><span class="line"><span class="attr">commonName</span>                  = Common Name (e.g. server FQDN or YOUR name)</span><br><span class="line"><span class="attr">commonName_max</span>              = <span class="number">64</span></span><br><span class="line"><span class="attr">commonName_default</span>          = localhost</span><br><span class="line"></span><br><span class="line"><span class="section">[ v3_req ]</span></span><br><span class="line"><span class="attr">subjectAltName</span> = @alt_names</span><br><span class="line"></span><br><span class="line"><span class="section">[ alt_names ]</span></span><br><span class="line"><span class="attr">DNS.1</span>   = localhost</span><br><span class="line"><span class="attr">IP.1</span>      = <span class="number">192.168</span>.<span class="number">3.58</span></span><br><span class="line"><span class="attr">IP.2</span>      = <span class="number">192.168</span>.<span class="number">3.59</span></span><br><span class="line"><span class="attr">IP.3</span>      = <span class="number">127.0</span>.<span class="number">0.1</span></span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.cnblogs.com/nidey/p/9041960.html" target="_blank" rel="noopener"> OpenSSL生成CA证书及终端用户证书 </a></p>
+<h3 id="一句话生成自签名证书和密钥"><a href="#一句话生成自签名证书和密钥" class="headerlink" title="一句话生成自签名证书和密钥"></a>一句话生成自签名证书和密钥</h3><p><code>openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365</code></p>
 
       
     </div>
@@ -384,8 +408,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/07/centos-安装-升级glibc/" rel="prev" title="centos 安装/升级glibc">
-                centos 安装/升级glibc <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/07/centos-安装-升级glibc/" rel="prev" title="centos 安装/升级glibc（失败）">
+                centos 安装/升级glibc（失败） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -414,6 +438,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
 
   
 
@@ -463,7 +494,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -474,7 +505,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -485,7 +516,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -495,6 +526,16 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vinovos@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -518,7 +559,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows安装"><span class="nav-number">1.</span> <span class="nav-text">windows安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成并加解密私钥公钥"><span class="nav-number">2.</span> <span class="nav-text">生成并加解密私钥公钥</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows安装"><span class="nav-number">1.</span> <span class="nav-text">windows安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成并加解密私钥公钥"><span class="nav-number">2.</span> <span class="nav-text">生成并加解密私钥公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成CA及终端用户证书"><span class="nav-number">3.</span> <span class="nav-text">生成CA及终端用户证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成终端用户证书"><span class="nav-number">4.</span> <span class="nav-text">生成终端用户证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一句话生成自签名证书和密钥"><span class="nav-number">5.</span> <span class="nav-text">一句话生成自签名证书和密钥</span></a></li></ol></div>
             
 
           </div>
@@ -702,6 +743,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'vinovos',
+            repo: 'vinovos.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '25f461503cde1bfd9d969fa122b9632d583d77e2',
+            
+                client_id: '33d4e5eaaacbe82894f0'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 

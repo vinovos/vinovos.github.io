@@ -82,14 +82,14 @@
 <meta name="description" content="1234567891011wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gztar zxvf glibc-2.23.tar.gzcd glibc-2.23mkdir buildcd build../configure --prefix=/opt/glibc-2.23make -j4make installexport LD_LIBRARY_PAT">
 <meta name="keywords" content="centos,glibc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="centos 安装&#x2F;升级glibc">
+<meta property="og:title" content="centos 安装&#x2F;升级glibc（失败）">
 <meta property="og:url" content="http://vinovos.github.io/2019/08/07/centos-安装-升级glibc/index.html">
 <meta property="og:site_name" content="vinovos">
 <meta property="og:description" content="1234567891011wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gztar zxvf glibc-2.23.tar.gzcd glibc-2.23mkdir buildcd build../configure --prefix=/opt/glibc-2.23make -j4make installexport LD_LIBRARY_PAT">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-08T15:42:52.467Z">
+<meta property="og:updated_time" content="2019-08-10T14:57:58.366Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="centos 安装&#x2F;升级glibc">
+<meta name="twitter:title" content="centos 安装&#x2F;升级glibc（失败）">
 <meta name="twitter:description" content="1234567891011wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gztar zxvf glibc-2.23.tar.gzcd glibc-2.23mkdir buildcd build../configure --prefix=/opt/glibc-2.23make -j4make installexport LD_LIBRARY_PAT">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>centos 安装/升级glibc | vinovos</title>
+  <title>centos 安装/升级glibc（失败） | vinovos</title>
   
 
 
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">centos 安装/升级glibc</h1>
+          <h1 class="post-title" itemprop="name headline">centos 安装/升级glibc（失败）</h1>
         
 
         <div class="post-meta">
@@ -329,6 +329,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/07/centos-安装-升级glibc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/08/07/centos-安装-升级glibc/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -355,6 +365,7 @@
       
         <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://ftp.gnu.org/gnu/glibc/glibc-2.23.tar.gz</span><br><span class="line">tar zxvf glibc-2.23.tar.gz</span><br><span class="line"><span class="built_in">cd</span> glibc-2.23</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">../configure --prefix=/opt/glibc-2.23</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/opt/glibc-2.23/lib</span><br></pre></td></tr></table></figure>
 
+<a id="more"></a>
 <p><a href="https://github.com/mind/wheels/issues/7" target="_blank" rel="noopener">Cannot run on CentOS with glibc 2.17</a><br>安装完成之后的压缩包<br>路径：/2019/08/07/centos-安装-升级glibc/glibc-2.23-install.tar.gz</p>
 <a href="/2019/08/07/centos-安装-升级glibc/glibc-2.23-install.tar.gz" title="编译的压缩包">编译的压缩包</a>
 
@@ -434,6 +445,13 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
 
 
 
@@ -472,7 +490,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -483,7 +501,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -494,7 +512,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -504,6 +522,16 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vinovos@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -695,6 +723,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'vinovos',
+            repo: 'vinovos.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '25f461503cde1bfd9d969fa122b9632d583d77e2',
+            
+                client_id: '33d4e5eaaacbe82894f0'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 

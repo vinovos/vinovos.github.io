@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="python读取私钥12345678910from cryptography.hazmat.primitives import serializationfrom cryptography.hazmat.backends import default_backendwith open(&quot;private.key&quot;, &quot;rb&quot;) as key_file:    private_key = serial">
+<meta name="description" content="python读取加密私钥12345678910from cryptography.hazmat.primitives import serializationfrom cryptography.hazmat.backends import default_backendwith open(&quot;private.key&quot;, &quot;rb&quot;) as key_file:    private_key = seri">
 <meta name="keywords" content="python,加解密">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python加解密">
 <meta property="og:url" content="http://vinovos.github.io/2019/08/06/python加解密/index.html">
 <meta property="og:site_name" content="vinovos">
-<meta property="og:description" content="python读取私钥12345678910from cryptography.hazmat.primitives import serializationfrom cryptography.hazmat.backends import default_backendwith open(&quot;private.key&quot;, &quot;rb&quot;) as key_file:    private_key = serial">
+<meta property="og:description" content="python读取加密私钥12345678910from cryptography.hazmat.primitives import serializationfrom cryptography.hazmat.backends import default_backendwith open(&quot;private.key&quot;, &quot;rb&quot;) as key_file:    private_key = seri">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-08T15:44:24.593Z">
+<meta property="og:updated_time" content="2019-08-10T15:46:45.376Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python加解密">
-<meta name="twitter:description" content="python读取私钥12345678910from cryptography.hazmat.primitives import serializationfrom cryptography.hazmat.backends import default_backendwith open(&quot;private.key&quot;, &quot;rb&quot;) as key_file:    private_key = serial">
+<meta name="twitter:description" content="python读取加密私钥12345678910from cryptography.hazmat.primitives import serializationfrom cryptography.hazmat.backends import default_backendwith open(&quot;private.key&quot;, &quot;rb&quot;) as key_file:    private_key = seri">
 
 
 
@@ -329,6 +329,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/06/python加解密/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/08/06/python加解密/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -353,10 +363,11 @@
       
 
       
-        <h3 id="python读取私钥"><a href="#python读取私钥" class="headerlink" title="python读取私钥"></a>python读取私钥</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> serialization</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"private.key"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> key_file:</span><br><span class="line">    private_key = serialization.load_pem_private_key(</span><br><span class="line">        key_file.read(),</span><br><span class="line">        password=<span class="string">b'123456'</span>,</span><br><span class="line">        backend=default_backend() </span><br><span class="line">    )</span><br><span class="line">    print(str(private_key))</span><br></pre></td></tr></table></figure>
+        <h3 id="python读取加密私钥"><a href="#python读取加密私钥" class="headerlink" title="python读取加密私钥"></a>python读取加密私钥</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> serialization</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"private.key"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> key_file:</span><br><span class="line">    private_key = serialization.load_pem_private_key(</span><br><span class="line">        key_file.read(),</span><br><span class="line">        password=<span class="string">b'123456'</span>,</span><br><span class="line">        backend=default_backend() </span><br><span class="line">    )</span><br><span class="line">    print(str(private_key))</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://stackoverflow.com/questions/46850665/how-to-decrypt-rsa-encrypted-file-via-php-and-openssl-with-pyopenssl" target="_blank" rel="noopener">how-to-decrypt-rsa-encrypted-file-via-php-and-openssl-with-pyopenssl</a></p>
-<h3 id="python对称加解密-aes"><a href="#python对称加解密-aes" class="headerlink" title="python对称加解密(aes)"></a>python对称加解密(aes)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives.ciphers <span class="keyword">import</span> Cipher, algorithms, modes</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> padding</span><br><span class="line"></span><br><span class="line">padder = padding.PKCS7(<span class="number">128</span>).padder()</span><br><span class="line">unpadder = padding.PKCS7(<span class="number">128</span>).unpadder()</span><br><span class="line">backend = default_backend()</span><br><span class="line">key = os.urandom(<span class="number">32</span>)</span><br><span class="line">iv = os.urandom(<span class="number">16</span>)</span><br><span class="line">cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend)</span><br><span class="line">encryptor = cipher.encryptor()</span><br><span class="line">ct = encryptor.update(<span class="string">b"a secret message ghhag"</span>) + padder.finalize()</span><br><span class="line">decryptor = cipher.decryptor()</span><br><span class="line">data1 = unpadder.update(ct) + unpadder.finalize()</span><br><span class="line">dct = decryptor.update(data1)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="python对称加解密-aes-cbc"><a href="#python对称加解密-aes-cbc" class="headerlink" title="python对称加解密(aes cbc)"></a>python对称加解密(aes cbc)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives.ciphers <span class="keyword">import</span> Cipher, algorithms, modes</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> padding</span><br><span class="line"></span><br><span class="line">padder = padding.PKCS7(<span class="number">128</span>).padder()</span><br><span class="line">unpadder = padding.PKCS7(<span class="number">128</span>).unpadder()</span><br><span class="line">backend = default_backend()</span><br><span class="line">key = os.urandom(<span class="number">32</span>)</span><br><span class="line">iv = os.urandom(<span class="number">16</span>)</span><br><span class="line">cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend)</span><br><span class="line">encryptor = cipher.encryptor()</span><br><span class="line">data_padder = padder.update(<span class="string">b"a secret message ghhag"</span>) + padder.finalize()</span><br><span class="line">ct = encryptor.update(data_padder)</span><br><span class="line">print(ct)</span><br><span class="line">decryptor = cipher.decryptor()</span><br><span class="line">dct = decryptor.update(ct)</span><br><span class="line">data1 = unpadder.update(dct) + unpadder.finalize()</span><br><span class="line">print(data1)</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/" target="_blank" rel="noopener">Symmetric encryption</a><br><a href="https://cryptography.io/en/latest/hazmat/primitives/padding/" target="_blank" rel="noopener">Symmetric Padding</a></p>
 <h2 id="中英文对照表"><a href="#中英文对照表" class="headerlink" title="中英文对照表"></a>中英文对照表</h2><p>Asymmetric algorithms   非对称加解密<br>Symmetric encryption    对称加密</p>
@@ -434,6 +445,13 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
 
 
 
@@ -481,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -492,7 +510,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -503,7 +521,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -513,6 +531,16 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vinovos@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -536,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python读取私钥"><span class="nav-number">1.</span> <span class="nav-text">python读取私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python对称加解密-aes"><span class="nav-number">2.</span> <span class="nav-text">python对称加解密(aes)</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#中英文对照表"><span class="nav-number"></span> <span class="nav-text">中英文对照表</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python读取加密私钥"><span class="nav-number">1.</span> <span class="nav-text">python读取加密私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python对称加解密-aes-cbc"><span class="nav-number">2.</span> <span class="nav-text">python对称加解密(aes cbc)</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#中英文对照表"><span class="nav-number"></span> <span class="nav-text">中英文对照表</span></a></li></div>
             
 
           </div>
@@ -720,6 +748,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'vinovos',
+            repo: 'vinovos.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '25f461503cde1bfd9d969fa122b9632d583d77e2',
+            
+                client_id: '33d4e5eaaacbe82894f0'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 

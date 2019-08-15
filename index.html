@@ -253,6 +253,304 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/15/python-http-client使用指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/15/python-http-client使用指南/" itemprop="url">python http.client使用指南</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T21:19:51+08:00">
+                2019-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之所以会有这篇文章是因为之前研究requests校验证书时不校验hostname无法解决，想的一个折中的办法<br>目前此问题已经解决，如果也有有requests相关的问题，请参考文章[python requests库使用]{<a href="https://vinovos.github.io/2019/08/11/python-requests%E5%BA%93%E4%BD%BF%E7%94%A8/}">https://vinovos.github.io/2019/08/11/python-requests%E5%BA%93%E4%BD%BF%E7%94%A8/}</a></p>
+<h2 id="建立连接及请求示例"><a href="#建立连接及请求示例" class="headerlink" title="建立连接及请求示例"></a>建立连接及请求示例</h2><h3 id="服务器代码"><a href="#服务器代码" class="headerlink" title="服务器代码"></a>服务器代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding = utf-8</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, jsonify</span><br><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">cert_path = <span class="string">r'cert'</span></span><br><span class="line"><span class="meta">@app.route("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello World!"</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/post-test", methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post_test</span><span class="params">()</span>:</span></span><br><span class="line">    data = request.json</span><br><span class="line">    print(data)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'post is ok'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)</span><br><span class="line">    <span class="comment"># 如果key没有加密，则不用password字段</span></span><br><span class="line">    ssl_context.load_cert_chain(certfile=<span class="string">r'cert/server.crt'</span>, keyfile=<span class="string">r'cert/server-enc.key'</span>, password=<span class="string">'123456'</span>)</span><br><span class="line">    ssl_context.load_verify_locations(<span class="string">r'cert/ca.crt'</span>)</span><br><span class="line">    app.run(ssl_context=ssl_context) <span class="comment"># 传入ssl_context到flask</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="get以及post请求"><a href="#get以及post请求" class="headerlink" title="get以及post请求"></a>get以及post请求</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http.client</span><br><span class="line"><span class="keyword">import</span> ssl,json</span><br><span class="line"></span><br><span class="line">headers = &#123; <span class="string">'Connection'</span>: <span class="string">'close'</span>,</span><br><span class="line">            <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">            <span class="string">'Host'</span>: <span class="string">'127.0.0.1'</span>&#125;</span><br><span class="line">context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)</span><br><span class="line">context.load_cert_chain(certfile=<span class="string">r'cert/server.crt'</span>, keyfile=<span class="string">r'cert/server-enc.key'</span>, password=<span class="string">'123456'</span>)</span><br><span class="line">context.load_verify_locations(<span class="string">r'cert/ca.crt'</span>)</span><br><span class="line"><span class="comment"># 默认为False</span></span><br><span class="line"><span class="comment"># context.check_hostname = False</span></span><br><span class="line">h1 = http.client.HTTPSConnection(host=<span class="string">'127.0.0.1'</span>, port=<span class="number">5000</span>, context=context)</span><br><span class="line">h1.request(method=<span class="string">'get'</span>, url=<span class="string">'/'</span>, headers=headers)</span><br><span class="line">rep = h1.getresponse()</span><br><span class="line">print(rep.read(rep.length))</span><br><span class="line">data = &#123;<span class="string">'json'</span>:&#123;<span class="string">'name'</span>:<span class="string">'vinovos'</span>, <span class="string">'age'</span>:<span class="string">'18'</span>&#125;&#125;</span><br><span class="line">data = json.dumps(data)</span><br><span class="line">h1.request(method=<span class="string">'post'</span>, url=<span class="string">'/post-test'</span>, headers=headers, body=data)</span><br><span class="line">rep = h1.getresponse()</span><br><span class="line">print(rep.read(rep.length))</span><br><span class="line">h1.close()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/14/那些恼人的linux小知识点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/14/那些恼人的linux小知识点/" itemprop="url">那些恼人的linux小知识点</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T20:19:58+08:00">
+                2019-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="1、如-bashrc命令里面的-代表什么"><a href="#1、如-bashrc命令里面的-代表什么" class="headerlink" title="1、如. .bashrc命令里面的.代表什么"></a>1、如. .bashrc命令里面的.代表什么</h3><blockquote>
+<p>.代表的其实是命令source命令，上面的命令等同与source .bashrc</p>
+</blockquote>
+<h3 id="2、copy命令里面copy-src-dest是否真的复制了全部文件过去"><a href="#2、copy命令里面copy-src-dest是否真的复制了全部文件过去" class="headerlink" title="2、copy命令里面copy src/* dest是否真的复制了全部文件过去"></a>2、copy命令里面copy src/* dest是否真的复制了全部文件过去</h3><blockquote>
+<p>copy src/* dest只会复制src目录下的可见文件，而不会复制隐藏文件，要同时复制隐藏文件请使用copy src/. dest</p>
+</blockquote>
+<h3 id="3、在执行了一条命令-usr-bin下的make-，然后删掉了-usr-bin下的make-存在-bin-make-再次执行make，会提示不存在-usr-bin-make，什么原因"><a href="#3、在执行了一条命令-usr-bin下的make-，然后删掉了-usr-bin下的make-存在-bin-make-再次执行make，会提示不存在-usr-bin-make，什么原因" class="headerlink" title="3、在执行了一条命令(/usr/bin下的make)，然后删掉了/usr/bin下的make,存在/bin/make,再次执行make，会提示不存在/usr/bin/make，什么原因"></a>3、在执行了一条命令(/usr/bin下的make)，然后删掉了/usr/bin下的make,存在/bin/make,再次执行make，会提示不存在/usr/bin/make，什么原因</h3><blockquote>
+<p>linux在一个session里面会记录执行过的命令，并记录成hash表，下次直接读取hash，如果删掉了存在的命令文件，就会提示，这时可以执行hash -r命令来刷新hash表</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/14/那些恼人的linux小知识点/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/11/python-requests库使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -358,7 +656,7 @@
         
           
             <p><a href="https://2.python-requests.org/en/master/" target="_blank" rel="noopener">官方文档</a></p>
-<h3 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h3><h3 id="requets支持客户端私钥加密-requests-support-client-encrypt-key"><a href="#requets支持客户端私钥加密-requests-support-client-encrypt-key" class="headerlink" title="requets支持客户端私钥加密 requests support client encrypt key"></a>requets支持客户端私钥加密 requests support client encrypt key</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> requests.adapters <span class="keyword">import</span> HTTPAdapter</span><br><span class="line"><span class="keyword">from</span> urllib3.util.ssl_ <span class="keyword">import</span> create_urllib3_context</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SSLAdapter</span><span class="params">(HTTPAdapter)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, certfile, keyfile, password=None, *args, **kwargs)</span>:</span></span><br><span class="line">        self._certfile = certfile</span><br><span class="line">        self._keyfile = keyfile</span><br><span class="line">        self._password = password</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_poolmanager</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).init_poolmanager(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">proxy_manager_for</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).proxy_manager_for(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_add_ssl_context</span><span class="params">(self, kwargs)</span>:</span></span><br><span class="line">        context = create_urllib3_context()</span><br><span class="line">        context.load_cert_chain(certfile=self._certfile,</span><br><span class="line">                                keyfile=self._keyfile,</span><br><span class="line">                                password=str(self._password))</span><br><span class="line">        kwargs[<span class="string">'ssl_context'</span>] = context</span><br><span class="line"></span><br><span class="line">session = requests.Session()</span><br><span class="line">session.mount(<span class="string">'https://'</span>, SSLAdapter(<span class="string">r'cert/client.crt'</span>, <span class="string">r"cert/client-enc.key"</span>, <span class="string">'123456'</span>))</span><br><span class="line">r = session.get(<span class="string">'https://127.0.0.1:5000'</span>, verify=<span class="string">r'cert/ca.crt'</span>)</span><br><span class="line">print(session.get_adapter(<span class="string">'https://127.0.0.1:5000'</span>))</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+<h3 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h3><h3 id="requests支持客户端私钥加密-requests-support-client-encrypt-key"><a href="#requests支持客户端私钥加密-requests-support-client-encrypt-key" class="headerlink" title="requests支持客户端私钥加密 requests support client encrypt key"></a>requests支持客户端私钥加密 requests support client encrypt key</h3><h3 id="requests支持不验证证书的hostname"><a href="#requests支持不验证证书的hostname" class="headerlink" title="requests支持不验证证书的hostname"></a>requests支持不验证证书的hostname</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> requests.adapters <span class="keyword">import</span> HTTPAdapter</span><br><span class="line"><span class="keyword">from</span> urllib3.util.ssl_ <span class="keyword">import</span> create_urllib3_context</span><br><span class="line"><span class="keyword">from</span> urllib3.poolmanager <span class="keyword">import</span> PoolManager</span><br><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SSLAdapter</span><span class="params">(HTTPAdapter)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    使用方法，见下面的请求方式</span></span><br><span class="line"><span class="string">    目的： 自定义https请求方式，可以使用自定义证书和密钥，支持密钥加密</span></span><br><span class="line"><span class="string">    note: 目前实现的功能不支持校验hostname,如果要校验，请将assert_hostname更改为True，或者删除</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, certfile, keyfile, password=None, *args, **kwargs)</span>:</span></span><br><span class="line">        self._certfile = certfile</span><br><span class="line">        self._keyfile = keyfile</span><br><span class="line">        self._password = password</span><br><span class="line">        <span class="comment"># 如果要校验hostnae，则设置为True</span></span><br><span class="line">        self.assert_hostname = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_poolmanager</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).init_poolmanager(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># init_poolmanager另一种实现方式</span></span><br><span class="line">    <span class="comment"># def init_poolmanager(self, connections, maxsize, block=False):</span></span><br><span class="line">    <span class="comment">#     self.poolmanager = PoolManager(num_pools=connections,</span></span><br><span class="line">    <span class="comment">#                                    maxsize=maxsize,</span></span><br><span class="line">    <span class="comment">#                                    block=block,</span></span><br><span class="line">    <span class="comment">#                                    assert_hostname=self.assert_hostname,</span></span><br><span class="line">    <span class="comment">#                                    ssl_context=self._add_ssl_context()</span></span><br><span class="line">    <span class="comment">#                                    )</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">proxy_manager_for</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).proxy_manager_for(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_add_ssl_context</span><span class="params">(self, kwargs=None)</span>:</span></span><br><span class="line">        context = create_urllib3_context()</span><br><span class="line">        context.load_cert_chain(certfile=self._certfile,</span><br><span class="line">                                keyfile=self._keyfile,</span><br><span class="line">                                password=str(self._password))</span><br><span class="line">        <span class="keyword">if</span> kwargs <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            kwargs[<span class="string">'ssl_context'</span>] = context</span><br><span class="line">            kwargs[<span class="string">'assert_hostname'</span>] = self.assert_hostname</span><br><span class="line">        <span class="keyword">return</span> context</span><br><span class="line"></span><br><span class="line">session = requests.Session()</span><br><span class="line">session.mount(<span class="string">'https://'</span>, SSLAdapter(<span class="string">r'cert/client.crt'</span>, <span class="string">r"cert/client-enc.key"</span>, <span class="string">'123456'</span>))</span><br><span class="line">r = session.get(<span class="string">'https://127.0.0.1:5000'</span>, verify=<span class="string">r'cert/ca.crt'</span>)</span><br><span class="line">print(session.get_adapter(<span class="string">'https://127.0.0.1:5000'</span>))</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://stackoverflow.com/questions/51002776/private-encrypted-key-workaround-with-requests-ca-certificate" target="_blank" rel="noopener">Private Encrypted Key Workaround with Requests</a></p>
 
@@ -1479,356 +1777,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/02/电脑配置及升级/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/02/电脑配置及升级/" itemprop="url">电脑配置及升级</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-02T22:12:37+08:00">
-                2019-08-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/电脑/" itemprop="url" rel="index">
-                    <span itemprop="name">电脑</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/电脑/acer/" itemprop="url" rel="index">
-                    <span itemprop="name">acer</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="电脑升级"><a href="#电脑升级" class="headerlink" title="电脑升级"></a>电脑升级</h2><h3 id="产品型号"><a href="#产品型号" class="headerlink" title="产品型号"></a>产品型号</h3><p>acer VN7-591G-55N2 (aspire V15 nitro)</p>
-<h3 id="产品调研"><a href="#产品调研" class="headerlink" title="产品调研"></a>产品调研</h3><p>VN7-591G 可以扩展一个M.2 2280的ssd和DDR3L的内存</p>
-<table>
-<thead>
-<tr>
-<th align="left">产品型号</th>
-<th align="center">接口规格</th>
-<th align="left">接口数量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">VN7-591系列</td>
-<td align="center">SATA3，M.2(NGFF)，2280的尺寸，支持SATA协议</td>
-<td align="left">2</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center">型号</th>
-<th align="center">内存最大支持</th>
-<th align="center">单根最大内存</th>
-<th align="center">内存规格</th>
-<th align="center">内存槽数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">VN7-591G系列</td>
-<td align="center">16GB</td>
-<td align="center">8GB</td>
-<td align="center">DDR3L</td>
-<td align="center">2</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>VN7-591G的外部接口包含3个USB3.0接口， 1个读卡器接口，1个音频接口，1个RJ45网线接口和1个HDMI接口。机器无内置光驱，另外两个VN7型号有光驱接口，但不是所有版本均采用。内部接口包含2个内存插槽，1个2.5寸SATA3接口（7mm厚度），1个M.2 2280接口（SATA 6Gbps速率）<del>和1个M.2 2230接口（PCI-E 1x）</del>。CPU和显卡直接封装在主板上，不可更换。此外M2.2280接口只有80mm规格的固定位置，如果选购半高40mm的固态硬盘将无法直接固定</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/02/电脑配置及升级/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/01/git使用指南/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/01/git使用指南/" itemprop="url">git使用指南</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-01T23:28:07+08:00">
-                2019-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/github/" itemprop="url" rel="index">
-                    <span itemprop="name">github</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="git使用指南"><a href="#git使用指南" class="headerlink" title="git使用指南"></a>git使用指南</h2><h3 id="git创建新目录并提交至远程仓库"><a href="#git创建新目录并提交至远程仓库" class="headerlink" title="git创建新目录并提交至远程仓库"></a>git创建新目录并提交至远程仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m <span class="string">"first commit"</span></span><br><span class="line">git remote add origin https://github.com/vinovos/git-pages-source.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/01/git使用指南/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1879,7 +1827,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -253,6 +253,336 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/25/python序列化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/25/python序列化/" itemprop="url">python序列化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-25T19:34:42+08:00">
+                2019-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/序列化/" itemprop="url" rel="index">
+                    <span itemprop="name">序列化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>序列化和反序列化是一个非常重要的特性，当你想保存对象到文件，读取配置文件，发送http请求，你就会用到序列化和反序列化。<br>但是序列化是一个比较麻烦的事情，你并不想关注格式和协议，而仅仅想保存对象，然后晚点完整的恢复它。<br>当你使用序列化时，你的序列化方案取决去运行速度、安全、便捷以及和其他程序的交互。</p>
+<h2 id="运行示例（基础结构）"><a href="#运行示例（基础结构）" class="headerlink" title="运行示例（基础结构）"></a>运行示例（基础结构）</h2><p>在最后面的示例中，我们都会使用这个基础结构来进行序列化和反序列化<br>简单的对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">simple = dict(int_list=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], text=<span class="string">'string'</span>, number=<span class="number">3.44</span>, boolean=<span class="literal">True</span>, none=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+<p>复杂的对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, simple)</span>:</span></span><br><span class="line">        self.simple = simple</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(other, <span class="string">'simple'</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> self.simple == other.simple</span><br><span class="line">    </span><br><span class="line">complex = dict(a=A(simple), when=datetime(<span class="number">2016</span>, <span class="number">3</span>, <span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/25/python序列化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/25/python中json使用指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/25/python中json使用指南/" itemprop="url">python中json使用指南</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-25T10:33:18+08:00">
+                2019-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/json/" itemprop="url" rel="index">
+                    <span itemprop="name">json</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="前言及前置知识"><a href="#前言及前置知识" class="headerlink" title="前言及前置知识"></a>前言及前置知识</h2><p>随着restful接口的兴起，json格式代替xml进行http交互使用越来越普遍，json比起xml更适合人来使用。</p>
+<h3 id="json格式"><a href="#json格式" class="headerlink" title="json格式"></a>json格式</h3><p>通常json格式由json字符串或json数组组成，可以互相包含<br>json字符串如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span> : <span class="string">"vinovos"</span>,</span><br><span class="line">    <span class="attr">"age"</span> : <span class="string">"18"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以看出是字典数据结构<br>json数组如下</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"name"</span> : <span class="string">"vinovos"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"name"</span> : <span class="string">"sovoniv"</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以看出数组里面包含了json字符串，当然也可以包含数组</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/25/python中json使用指南/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/15/python-http-client使用指南/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -661,7 +991,7 @@
             <p><a href="https://2.python-requests.org/en/master/" target="_blank" rel="noopener">官方文档</a></p>
 <h3 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h3><h3 id="requests支持客户端私钥加密-requests-support-client-encrypt-key"><a href="#requests支持客户端私钥加密-requests-support-client-encrypt-key" class="headerlink" title="requests支持客户端私钥加密 requests support client encrypt key"></a>requests支持客户端私钥加密 requests support client encrypt key</h3><h3 id="requests支持不验证证书的hostname"><a href="#requests支持不验证证书的hostname" class="headerlink" title="requests支持不验证证书的hostname"></a>requests支持不验证证书的hostname</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> requests.adapters <span class="keyword">import</span> HTTPAdapter</span><br><span class="line"><span class="keyword">from</span> urllib3.util.ssl_ <span class="keyword">import</span> create_urllib3_context</span><br><span class="line"><span class="keyword">from</span> urllib3.poolmanager <span class="keyword">import</span> PoolManager</span><br><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SSLAdapter</span><span class="params">(HTTPAdapter)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    使用方法，见下面的请求方式</span></span><br><span class="line"><span class="string">    目的： 自定义https请求方式，可以使用自定义证书和密钥，支持密钥加密</span></span><br><span class="line"><span class="string">    note: 目前实现的功能不支持校验hostname,如果要校验，请将assert_hostname更改为True，或者删除</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, certfile, keyfile, password=None, *args, **kwargs)</span>:</span></span><br><span class="line">        self._certfile = certfile</span><br><span class="line">        self._keyfile = keyfile</span><br><span class="line">        self._password = password</span><br><span class="line">        <span class="comment"># 如果要校验hostnae，则设置为True</span></span><br><span class="line">        self.assert_hostname = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_poolmanager</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).init_poolmanager(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># init_poolmanager另一种实现方式</span></span><br><span class="line">    <span class="comment"># def init_poolmanager(self, connections, maxsize, block=False):</span></span><br><span class="line">    <span class="comment">#     self.poolmanager = PoolManager(num_pools=connections,</span></span><br><span class="line">    <span class="comment">#                                    maxsize=maxsize,</span></span><br><span class="line">    <span class="comment">#                                    block=block,</span></span><br><span class="line">    <span class="comment">#                                    assert_hostname=self.assert_hostname,</span></span><br><span class="line">    <span class="comment">#                                    ssl_context=self._add_ssl_context()</span></span><br><span class="line">    <span class="comment">#                                    )</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">proxy_manager_for</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).proxy_manager_for(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_add_ssl_context</span><span class="params">(self, kwargs=None)</span>:</span></span><br><span class="line">        context = create_urllib3_context()</span><br><span class="line">        context.load_cert_chain(certfile=self._certfile,</span><br><span class="line">                                keyfile=self._keyfile,</span><br><span class="line">                                password=str(self._password))</span><br><span class="line">        <span class="keyword">if</span> kwargs <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            kwargs[<span class="string">'ssl_context'</span>] = context</span><br><span class="line">            kwargs[<span class="string">'assert_hostname'</span>] = self.assert_hostname</span><br><span class="line">        <span class="keyword">return</span> context</span><br><span class="line"></span><br><span class="line">session = requests.Session()</span><br><span class="line">session.mount(<span class="string">'https://'</span>, SSLAdapter(<span class="string">r'cert/client.crt'</span>, <span class="string">r"cert/client-enc.key"</span>, <span class="string">'123456'</span>))</span><br><span class="line">r = session.get(<span class="string">'https://127.0.0.1:5000'</span>, verify=<span class="string">r'cert/ca.crt'</span>)</span><br><span class="line">print(session.get_adapter(<span class="string">'https://127.0.0.1:5000'</span>))</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
 
-<p><a href="https://stackoverflow.com/questions/51002776/private-encrypted-key-workaround-with-requests-ca-certificate" target="_blank" rel="noopener">Private Encrypted Key Workaround with Requests</a></p>
+<p><a href="https://stackoverflow.com/questions/51002776/private-encrypted-key-workaround-with-requests-ca-certificate" target="_blank" rel="noopener">Private Encrypted Key Workaround with Requests</a><br><a href="https://stackoverflow.com/questions/22758031/how-to-disable-hostname-checking-in-requests-python" target="_blank" rel="noopener">How to disable hostname checking in requests python</a></p>
 
           
         
@@ -1474,312 +1804,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/06/openssl使用指南/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/06/openssl使用指南/" itemprop="url">openssl使用指南</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-06T21:31:48+08:00">
-                2019-08-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/openssl/" itemprop="url" rel="index">
-                    <span itemprop="name">openssl</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="windows安装"><a href="#windows安装" class="headerlink" title="windows安装"></a>windows安装</h3><p><a href="https://tecadmin.net/install-openssl-on-windows/" target="_blank" rel="noopener">install-openssl-on-windows</a></p>
-<h3 id="生成并加解密私钥公钥"><a href="#生成并加解密私钥公钥" class="headerlink" title="生成并加解密私钥公钥"></a>生成并加解密私钥公钥</h3><p>生成2048位rsa私钥  Generate a 2048 bit RSA Key<br><code>openssl genrsa -out private.key 2048</code><br>生成2048位rsa私钥(aes256加密后) Generate a 2048 bit RSA Key with passphrase<br><code>openssl genrsa -aes256 -out private.key 2048</code><br>导出rsa公钥  Export the RSA Public Key to a File<br><code>openssl rsa -in private.key -outform PEM -pubout -out public.pem</code><br>openssl加密生成后的私钥 add a passphrase<br><code>openssl rsa -aes256 -in private.key -out encrypted.key</code><br>openssl解密加密后的私钥 remove a passphrase<br><code>openssl rsa -in encrypted.key -out private.key</code></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/06/openssl使用指南/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/06/python加解密/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/06/python加解密/" itemprop="url">python加解密</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-06T21:29:33+08:00">
-                2019-08-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/加解密/" itemprop="url" rel="index">
-                    <span itemprop="name">加解密</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="python读取加密私钥"><a href="#python读取加密私钥" class="headerlink" title="python读取加密私钥"></a>python读取加密私钥</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> cryptography.hazmat.primitives <span class="keyword">import</span> serialization</span><br><span class="line"><span class="keyword">from</span> cryptography.hazmat.backends <span class="keyword">import</span> default_backend</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"private.key"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> key_file:</span><br><span class="line">    private_key = serialization.load_pem_private_key(</span><br><span class="line">        key_file.read(),</span><br><span class="line">        password=<span class="string">b'123456'</span>,</span><br><span class="line">        backend=default_backend() </span><br><span class="line">    )</span><br><span class="line">    print(str(private_key))</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://stackoverflow.com/questions/46850665/how-to-decrypt-rsa-encrypted-file-via-php-and-openssl-with-pyopenssl" target="_blank" rel="noopener">how-to-decrypt-rsa-encrypted-file-via-php-and-openssl-with-pyopenssl</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/06/python加解密/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1830,7 +1854,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1841,7 +1865,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1852,7 +1876,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

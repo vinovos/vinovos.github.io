@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,序列化,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="序列化和反序列化是一个非常重要的特性，当你想保存对象到文件，读取配置文件，发送http请求，你就会用到序列化和反序列化。但是序列化是一个比较麻烦的事情，你并不想关注格式和协议，而仅仅想保存对象，然后晚点完整的恢复它。当你使用序列化时，你的序列化方案取决去运行速度、安全、便捷以及和其他程序的交互。 运行示例（基础结构）在最后面的示例中，我们都会使用这个基础结构来进行序列化和反序列化简单的对象： 1s">
+<meta name="keywords" content="python,序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python序列化">
+<meta property="og:url" content="http://vinovos.github.io/2019/08/25/python序列化/index.html">
+<meta property="og:site_name" content="vinovos">
+<meta property="og:description" content="序列化和反序列化是一个非常重要的特性，当你想保存对象到文件，读取配置文件，发送http请求，你就会用到序列化和反序列化。但是序列化是一个比较麻烦的事情，你并不想关注格式和协议，而仅仅想保存对象，然后晚点完整的恢复它。当你使用序列化时，你的序列化方案取决去运行速度、安全、便捷以及和其他程序的交互。 运行示例（基础结构）在最后面的示例中，我们都会使用这个基础结构来进行序列化和反序列化简单的对象： 1s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-25T15:19:15.588Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python序列化">
+<meta name="twitter:description" content="序列化和反序列化是一个非常重要的特性，当你想保存对象到文件，读取配置文件，发送http请求，你就会用到序列化和反序列化。但是序列化是一个比较麻烦的事情，你并不想关注格式和协议，而仅仅想保存对象，然后晚点完整的恢复它。当你使用序列化时，你的序列化方案取决去运行速度、安全、便捷以及和其他程序的交互。 运行示例（基础结构）在最后面的示例中，我们都会使用这个基础结构来进行序列化和反序列化简单的对象： 1s">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://vinovos.github.io/2019/08/25/python序列化/">
+
+
+
+
+
+  <title>python序列化 | vinovos</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">vinovos</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一只小开发的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/25/python序列化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python序列化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-25T19:34:42+08:00">
+                2019-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/序列化/" itemprop="url" rel="index">
+                    <span itemprop="name">序列化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/25/python序列化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/08/25/python序列化/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>序列化和反序列化是一个非常重要的特性，当你想保存对象到文件，读取配置文件，发送http请求，你就会用到序列化和反序列化。<br>但是序列化是一个比较麻烦的事情，你并不想关注格式和协议，而仅仅想保存对象，然后晚点完整的恢复它。<br>当你使用序列化时，你的序列化方案取决去运行速度、安全、便捷以及和其他程序的交互。</p>
+<h2 id="运行示例（基础结构）"><a href="#运行示例（基础结构）" class="headerlink" title="运行示例（基础结构）"></a>运行示例（基础结构）</h2><p>在最后面的示例中，我们都会使用这个基础结构来进行序列化和反序列化<br>简单的对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">simple = dict(int_list=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], text=<span class="string">'string'</span>, number=<span class="number">3.44</span>, boolean=<span class="literal">True</span>, none=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+<p>复杂的对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, simple)</span>:</span></span><br><span class="line">        self.simple = simple</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(other, <span class="string">'simple'</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> self.simple == other.simple</span><br><span class="line">    </span><br><span class="line">complex = dict(a=A(simple), when=datetime(<span class="number">2016</span>, <span class="number">3</span>, <span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<h2 id="Pickle"><a href="#Pickle" class="headerlink" title="Pickle"></a>Pickle</h2><p>pickle时python自带的一个序列化和反序列化格式库。提供了四种方法： dump, dumps, load, loads</p>
+<blockquote>
+<p>load操作文件，loads操作字符串，dump操作文件，dumps操作字符串，后面不在列出<br>序列化及反序列化代码：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line">simple_serialize = pickle.dumps(simple)</span><br><span class="line">simple_serialize_highest = pickle.dumps(simple, protocol=pickle.HIGHEST_PROTOCOL)</span><br><span class="line">simple = pickle.loads(simple_serialize_highest)</span><br><span class="line">pickle.dump(simple, open(<span class="string">'simple'</span>, <span class="string">'wb'</span>), protocol=pickle.HIGHEST_PROTOCOL)</span><br></pre></td></tr></table></figure>
+
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p><strong>如果不是必须的情况下，不建议使用json来将非json格式对象来序列化</strong><br>json格式的基本操作见 <a href="/2019/08/25/python中json使用指南/" title="[python中json使用指南]">[python中json使用指南]</a><br>这里我们来操作复杂的对象（默认失败）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">json.dumps(complex)</span><br><span class="line">--------------------------------------------------------------------------------------------------</span><br><span class="line">    json.dumps(complex)</span><br><span class="line">  File <span class="string">"c:\program files (x86)\python37\Lib\json\__init__.py"</span>, line <span class="number">231</span>, <span class="keyword">in</span> dumps</span><br><span class="line">    <span class="keyword">return</span> _default_encoder.encode(obj)</span><br><span class="line">  File <span class="string">"c:\program files (x86)\python37\Lib\json\encoder.py"</span>, line <span class="number">199</span>, <span class="keyword">in</span> encode</span><br><span class="line">    chunks = self.iterencode(o, _one_shot=<span class="literal">True</span>)</span><br><span class="line">  File <span class="string">"c:\program files (x86)\python37\Lib\json\encoder.py"</span>, line <span class="number">257</span>, <span class="keyword">in</span> iterencode</span><br><span class="line">    <span class="keyword">return</span> _iterencode(o, <span class="number">0</span>)</span><br><span class="line">  File <span class="string">"c:\program files (x86)\python37\Lib\json\encoder.py"</span>, line <span class="number">179</span>, <span class="keyword">in</span> default</span><br><span class="line">    <span class="keyword">raise</span> TypeError(<span class="string">f'Object of type <span class="subst">&#123;o.__class__.__name__&#125;</span> '</span></span><br><span class="line">TypeError: Object of type A <span class="keyword">is</span> <span class="keyword">not</span> JSON serializable</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，如果直接dumps会报错，提示A不是一个json序列化，从而无法序列化</p>
+<blockquote>
+<p>json是一个格式限制非常严格的类型，不能自动序列化用户自定义的类<br>要解决以上的问题，需要创建一个JSONEncoder子类并实现<code>default()</code>，这个函数会在json无法自己实现序列化的时候调用<br>因为json无法自己序列化的都需要我们自己实现，所以我们在complex中需要实现A和datetime的序列化</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomEncoder</span><span class="params">(json.JSONEncoder)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">default</span><span class="params">(self, o)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(o, datetime):</span><br><span class="line">            <span class="keyword">return</span> &#123;<span class="string">'__datetime__'</span>: o.replace(microsecond=<span class="number">0</span>).isoformat()&#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'__&#123;&#125;__'</span>.format(o.__class__.__name__): o.__dict__&#125;</span><br><span class="line">json.dumps(complex, indent=<span class="number">4</span>, cls=CustomEncoder)</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们将自定义的类A和datetime转换成字典返回，key值为<code>__classname__</code>的格式，当然key可以自己定义<br>通过上面的代码，我们成功的将complex序列化，但是当反序列化的时候，则发现反序列化的结果与最原始的complex不同</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">complex_json = json.dumps(complex, indent=<span class="number">4</span>, cls=CustomEncoder)</span><br><span class="line">complex_json_deserialize = json.loads(complex_json)</span><br><span class="line"><span class="keyword">assert</span> complex == complex_json_deserialize</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的代码，我们会发现AssertionError</p>
+<blockquote>
+<p>我们可以通过pprint打印出对象来观察。会发现当我们自定义encoder函数的时候，decode之后会和encoder函数有关系<br>自定义encode函数会导致和原始对象的不同，这时候我们需要自定义decode函数<br>我们这次不需要定义一个自定义decoder子类，load()和loads()函数提供了”object_hook”参数来提供自定义的函数</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode_custom</span><span class="params">(obj)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">'__A__'</span> <span class="keyword">in</span> obj:</span><br><span class="line">        a = A(<span class="literal">None</span>)</span><br><span class="line">        a.__dict__.update(obj[<span class="string">'__A__'</span>])</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">elif</span> <span class="string">'__datetime__'</span> <span class="keyword">in</span> obj:</span><br><span class="line">        <span class="keyword">return</span> datetime.strptime(obj[<span class="string">'__datetime__'</span>], <span class="string">'%Y-%m-%dT%H:%M:%S'</span>)</span><br><span class="line">    <span class="keyword">return</span> obj</span><br><span class="line">complex_json_deserialize = json.loads(complex_json, object_hook=decode_custom)</span><br><span class="line"><span class="keyword">assert</span> complex == complex_json_deserialize</span><br></pre></td></tr></table></figure>
+
+<p>如上所示：我们将我们自定<code>__classname__</code>，转换成对应的对象返回，则解析成功，</p>
+<h2 id="YAML"><a href="#YAML" class="headerlink" title="YAML"></a>YAML</h2><p><a href="https://yaml.org/" target="_blank" rel="noopener">YAML</a>是一个对人比较友好的数据序列号格式，srping-boot中也支持此格式的配置<br>在python中则需要第三方库来支持使用yaml格式,这里推荐两个<br><code>pip install PyYAML</code> 较为活跃<br><code>pip install aspy.yaml</code>对PyYAML做了一些扩展，有特殊需要可以考虑<br>PyYAML只含有load() and dump()两个函数<br>PyYAML在最新的版本中，因为安全原因对原来的代码代行了调整，建议参数设置Loader，具体Loader有：<br><a href="https://github.com/yaml/pyyaml/wiki/PyYAML-yaml.load(input)-Deprecation#footnotes" target="_blank" rel="noopener">PyYAML yaml.load(input) Deprecation</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> yaml</span><br><span class="line">simple_serialize = yaml.dump(simple)</span><br><span class="line">simple = yaml.load(simple_serialize)</span><br><span class="line">yaml.dump(simple, open(<span class="string">'simple.yml'</span>, <span class="string">'w'</span>))</span><br><span class="line">simple = yaml.load(open(<span class="string">'simple.yml'</span>), Loader=yaml.BaseLoader)</span><br></pre></td></tr></table></figure>
+
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><p>//TODO</p>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><blockquote>
+<p>Pickle和YAML都可以把数据直接转化为对象，所以不要将这两个函数用于不信任或者未验证的代码<br>Never unpickle data received from an untrusted or unauthenticated source.<br>PyYAML提供了SafeLoader来进行安全防护，如果要进行不信任输入数据进行序列化，YAMl的Loader请使用此参数</p>
+</blockquote>
+<h2 id="其他序列化格式"><a href="#其他序列化格式" class="headerlink" title="其他序列化格式"></a>其他序列化格式</h2><p>Protobuf<br>protobuf是google团队开发的用于高效存储和读取结构化数据的工具，是高效的序列化数据结构的协议. 使用C++实现，但是有python库. 是一种比较复杂，但是强大的数据格式.<br>MessagePack<br>MessagePack是另一种比较流行的数据序列化格式(serialization format). 它也是二进制并且高效,但它不像Protobuf需要一种数据格式(schema)。使用了一种比较类似于JSOn的类型系统(type system),但是更加丰富。keys支持除了strings和non-utf strings的其他格式<br>CBOR<br>CBOR是一种提供良好压缩性，扩展性强，不需要进行版本协商的二进制数据交换形式.它支持JSON数据模型，不如Protobuf和MessagePack出名，但是比较有趣，因为下面两个原因：</p>
+<ul>
+<li>有官方的定义支持RFC 7049</li>
+<li>它被特别设计用来针对物联网(IoT)<h2 id="如何选择使用哪种格式"><a href="#如何选择使用哪种格式" class="headerlink" title="如何选择使用哪种格式"></a>如何选择使用哪种格式</h2></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://code.tutsplus.com/tutorials/serialization-and-deserialization-of-python-objects-part-1--cms-26183" target="_blank" rel="noopener">Serialization and Deserialization of Python Objects: Part 1</a><br><a href="https://code.tutsplus.com/tutorials/serialization-and-deserialization-of-python-objects-part-2--cms-26184" target="_blank" rel="noopener">Serialization and Deserialization of Python Objects: Part 2</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/序列化/" rel="tag"># 序列化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/25/python中json使用指南/" rel="next" title="python中json使用指南">
+                <i class="fa fa-chevron-left"></i> python中json使用指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">vinovos</p>
+              <p class="site-description motion-element" itemprop="description">一只小开发的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:vinovos@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行示例（基础结构）"><span class="nav-number">1.</span> <span class="nav-text">运行示例（基础结构）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pickle"><span class="nav-number">2.</span> <span class="nav-text">Pickle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON"><span class="nav-number">3.</span> <span class="nav-text">JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YAML"><span class="nav-number">4.</span> <span class="nav-text">YAML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">5.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-number">6.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他序列化格式"><span class="nav-number">7.</span> <span class="nav-text">其他序列化格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何选择使用哪种格式"><span class="nav-number">8.</span> <span class="nav-text">如何选择使用哪种格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vinovos</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'vinovos',
+            repo: 'vinovos.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '25f461503cde1bfd9d969fa122b9632d583d77e2',
+            
+                client_id: '33d4e5eaaacbe82894f0'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="vinovos">
 <meta property="og:description" content="序列化和反序列化是一个非常重要的特性，当你想保存对象到文件，读取配置文件，发送http请求，你就会用到序列化和反序列化。但是序列化是一个比较麻烦的事情，你并不想关注格式和协议，而仅仅想保存对象，然后晚点完整的恢复它。当你使用序列化时，你的序列化方案取决去运行速度、安全、便捷以及和其他程序的交互。 运行示例（基础结构）在最后面的示例中，我们都会使用这个基础结构来进行序列化和反序列化简单的对象： 1s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-25T15:19:15.588Z">
+<meta property="og:updated_time" content="2019-08-26T13:53:07.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python序列化">
 <meta name="twitter:description" content="序列化和反序列化是一个非常重要的特性，当你想保存对象到文件，读取配置文件，发送http请求，你就会用到序列化和反序列化。但是序列化是一个比较麻烦的事情，你并不想关注格式和协议，而仅仅想保存对象，然后晚点完整的恢复它。当你使用序列化时，你的序列化方案取决去运行速度、安全、便捷以及和其他程序的交互。 运行示例（基础结构）在最后面的示例中，我们都会使用这个基础结构来进行序列化和反序列化简单的对象： 1s">
@@ -403,11 +403,18 @@
 <h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><blockquote>
 <p>Pickle和YAML都可以把数据直接转化为对象，所以不要将这两个函数用于不信任或者未验证的代码<br>Never unpickle data received from an untrusted or unauthenticated source.<br>PyYAML提供了SafeLoader来进行安全防护，如果要进行不信任输入数据进行序列化，YAMl的Loader请使用此参数</p>
 </blockquote>
-<h2 id="其他序列化格式"><a href="#其他序列化格式" class="headerlink" title="其他序列化格式"></a>其他序列化格式</h2><p>Protobuf<br>protobuf是google团队开发的用于高效存储和读取结构化数据的工具，是高效的序列化数据结构的协议. 使用C++实现，但是有python库. 是一种比较复杂，但是强大的数据格式.<br>MessagePack<br>MessagePack是另一种比较流行的数据序列化格式(serialization format). 它也是二进制并且高效,但它不像Protobuf需要一种数据格式(schema)。使用了一种比较类似于JSOn的类型系统(type system),但是更加丰富。keys支持除了strings和non-utf strings的其他格式<br>CBOR<br>CBOR是一种提供良好压缩性，扩展性强，不需要进行版本协商的二进制数据交换形式.它支持JSON数据模型，不如Protobuf和MessagePack出名，但是比较有趣，因为下面两个原因：</p>
+<h2 id="其他序列化格式"><a href="#其他序列化格式" class="headerlink" title="其他序列化格式"></a>其他序列化格式</h2><p><strong>Protobuf</strong><br>protobuf是google团队开发的用于高效存储和读取结构化数据的工具，是高效的序列化数据结构的协议. 使用C++实现，但是有python库. 是一种比较复杂，但是强大的数据格式.</p>
+<p><strong>MessagePack</strong><br>MessagePack是另一种比较流行的数据序列化格式(serialization format). 它也是二进制并且高效,但它不像Protobuf需要一种数据格式(schema)。使用了一种比较类似于JSOn的类型系统(type system),但是更加丰富。keys支持除了strings和non-utf strings的其他格式</p>
+<p><strong>CBOR</strong><br>CBOR是一种提供良好压缩性，扩展性强，不需要进行版本协商的二进制数据交换形式.它支持JSON数据模型，不如Protobuf和MessagePack出名，但是比较有趣，因为下面两个原因：</p>
 <ul>
-<li>有官方的定义支持RFC 7049</li>
-<li>它被特别设计用来针对物联网(IoT)<h2 id="如何选择使用哪种格式"><a href="#如何选择使用哪种格式" class="headerlink" title="如何选择使用哪种格式"></a>如何选择使用哪种格式</h2></li>
+<li>有比较官方的支持RFC 7049</li>
+<li>它被特别设计用来针对物联网(IoT)</li>
 </ul>
+<h2 id="如何选择使用哪种格式"><a href="#如何选择使用哪种格式" class="headerlink" title="如何选择使用哪种格式"></a>如何选择使用哪种格式</h2><p>请根据实际情况选择合适的序列化协议，一般来说选择需要考虑下面四个方面：<br>    1、序列化后的格式是否人类可读、可编辑的<br>    2、被序列化内容是否会来自于不被信任的输入<br>    3、是否有高性能的需求或性能瓶颈<br>    4、是否需要与非python环境交互</p>
+<h3 id="自动保存本地状态在python程序中"><a href="#自动保存本地状态在python程序中" class="headerlink" title="自动保存本地状态在python程序中"></a>自动保存本地状态在python程序中</h3><p>采用使用HIGHEST_PROTOCOL参数的pickle模块。它是非常快速、高效并且存储大多数的python对象而不需要额外的操作</p>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>使用YAML格式。YAML被ansible和sping boot使用，是一个对人很友好的格式。</p>
+<h3 id="Web-APIS"><a href="#Web-APIS" class="headerlink" title="Web APIS"></a>Web APIS</h3><p>JSON是一个常用的Web apis接口所使用的格式，JSON格式是JavaScript的默认类型，适合前后端交互。</p>
+<h3 id="大规模、低延迟交互"><a href="#大规模、低延迟交互" class="headerlink" title="大规模、低延迟交互"></a>大规模、低延迟交互</h3><p>使用二进制协议中的一种：Protobuf（如果需要一种格式定义），MessagePack或者CBOR</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://code.tutsplus.com/tutorials/serialization-and-deserialization-of-python-objects-part-1--cms-26183" target="_blank" rel="noopener">Serialization and Deserialization of Python Objects: Part 1</a><br><a href="https://code.tutsplus.com/tutorials/serialization-and-deserialization-of-python-objects-part-2--cms-26184" target="_blank" rel="noopener">Serialization and Deserialization of Python Objects: Part 2</a></p>
 
       
@@ -450,6 +457,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/27/python数据类型转换/" rel="prev" title="python数据类型转换">
+                python数据类型转换 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -533,7 +544,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +555,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -555,7 +566,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -598,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行示例（基础结构）"><span class="nav-number">1.</span> <span class="nav-text">运行示例（基础结构）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pickle"><span class="nav-number">2.</span> <span class="nav-text">Pickle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON"><span class="nav-number">3.</span> <span class="nav-text">JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YAML"><span class="nav-number">4.</span> <span class="nav-text">YAML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">5.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-number">6.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他序列化格式"><span class="nav-number">7.</span> <span class="nav-text">其他序列化格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何选择使用哪种格式"><span class="nav-number">8.</span> <span class="nav-text">如何选择使用哪种格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行示例（基础结构）"><span class="nav-number">1.</span> <span class="nav-text">运行示例（基础结构）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pickle"><span class="nav-number">2.</span> <span class="nav-text">Pickle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON"><span class="nav-number">3.</span> <span class="nav-text">JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YAML"><span class="nav-number">4.</span> <span class="nav-text">YAML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能"><span class="nav-number">5.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-number">6.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他序列化格式"><span class="nav-number">7.</span> <span class="nav-text">其他序列化格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何选择使用哪种格式"><span class="nav-number">8.</span> <span class="nav-text">如何选择使用哪种格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动保存本地状态在python程序中"><span class="nav-number">8.1.</span> <span class="nav-text">自动保存本地状态在python程序中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-number">8.2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-APIS"><span class="nav-number">8.3.</span> <span class="nav-text">Web APIS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大规模、低延迟交互"><span class="nav-number">8.4.</span> <span class="nav-text">大规模、低延迟交互</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>

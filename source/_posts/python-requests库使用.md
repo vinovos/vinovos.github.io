@@ -65,3 +65,4 @@ print(session.get_adapter('https://127.0.0.1:5000'))
 print(r.text)
 ```
 [Private Encrypted Key Workaround with Requests](https://stackoverflow.com/questions/51002776/private-encrypted-key-workaround-with-requests-ca-certificate)
+[How to disable hostname checking in requests python](https://stackoverflow.com/questions/22758031/how-to-disable-hostname-checking-in-requests-python)

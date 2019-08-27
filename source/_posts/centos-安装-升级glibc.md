@@ -20,9 +20,5 @@ export LD_LIBRARY_PATH=/opt/glibc-2.23/lib
 ```
 <!-- more -->
 [Cannot run on CentOS with glibc 2.17](https://github.com/mind/wheels/issues/7)
-安装完成之后的压缩包
-路径：{% asset_path glibc-2.23-install.tar.gz %}
-{% asset_link glibc-2.23-install.tar.gz "编译的压缩包" %}
-
 
 [https://pkgs.org/](https://pkgs.org/)

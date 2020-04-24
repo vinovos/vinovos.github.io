@@ -24,6 +24,10 @@ tags: ['hexo','next']
 {% asset_img slug [title] %}
 {% asset_link slug [title] %}
 ```
+或者图片放在source/images 文件夹中
+```
+![](/images/image.jpg)
+```
 ### 引用文章
 ```
 {% post_path slug %}
@@ -43,6 +47,15 @@ gitment，它是基于 github 开发的，是依靠于 GitHub Issues 的评论�
 #### 关闭某个页面的评论
 在页面的 Front-matter 中添加 comments 字段，设为 false
 Front-matter指的时页面文件开头的部分
+### 在_posts目录下归档文件
+在文件加下面任意的创建目录，其最终生成的链接可以在配置`_config.yml`中更改
+`permalink: :year/:month/:day/:name/` name取文件名
+`permalink: :year/:month/:day/:title/` title取目录名+文件名
+### 搜索
+algolia相关插件需研究
+[hexo+next+algolia组合文档(next官方)](https://github.com/theme-next/hexo-theme-next/blob/master/docs/ALGOLIA-SEARCH.md)
+[简书文档](https://www.jianshu.com/p/fa2354d61e37)
+
 ## 参考资料
 [手把手教你用Hexo+Github 搭建属于自己的博客](https://blog.csdn.net/gdutxiaoxu/article/details/53576018)
 [Hexo使用攻略-添加分类及标签](https://linlif.github.io/2017/05/27/Hexo%E4%BD%BF%E7%94%A8%E6%94%BB%E7%95%A5-%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E5%8F%8A%E6%A0%87%E7%AD%BE/)

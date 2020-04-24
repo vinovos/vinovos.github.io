@@ -15,7 +15,7 @@ timezone:
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://vinovos.github.io/
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :year/:month/:day/:name/
 permalink_defaults:
 
 # Directory
@@ -29,7 +29,7 @@ i18n_dir: :lang
 skip_render:
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: :year/:title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
@@ -82,3 +82,9 @@ deploy:
   repo: git@github.com:vinovos/vinovos.github.io.git
   branch:
   message:
+
+algolia:
+  applicationID: '9RYQHP7JVN'
+  apiKey: '4fb490535879a0e6db3bf1c3f8e744dc'
+  indexName: 'hexo'
+  chunkSize: 5000

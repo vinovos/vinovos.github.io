@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="linux,python,">
+  <meta name="keywords" content="python,linux,">
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="编译安装如果官方没有rpm或者没有其他提供的rpm包，则需要自己编译（一般是最新版本) python3.7123456wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgzyum -y install gcc openssl-devel bzip2-devel libffi-develtar xzf Python-3.7.4.tg">
-<meta name="keywords" content="linux,python">
+<meta name="keywords" content="python,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux python安装">
 <meta property="og:url" content="http://vinovos.github.io/2019/08/07/linux-python安装/index.html">
@@ -367,6 +367,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/07/linux-python安装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/07/linux-python安装/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -411,9 +421,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
-          
             <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
         </div>
       
@@ -529,7 +539,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -540,7 +550,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -771,6 +781,28 @@
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'l2aJkQ6rrdV8QYfrKMnIE3TM-MdYXbMMI',
+        appKey: 'izgHzukE86Ocl7wUgwFWz6gU',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
 
 
 

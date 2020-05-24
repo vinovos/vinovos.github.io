@@ -2,7 +2,7 @@
 title: python requests库使用
 date: 2019-08-11 20:16:52
 categories: [python, requests]
-tags: [python, requests]
+tags: [python, requests, ssl]
 ---
 [官方文档](https://2.python-requests.org/en/master/)
 ### 基础用法

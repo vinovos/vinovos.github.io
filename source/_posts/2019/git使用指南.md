@@ -1,9 +1,13 @@
 ---
 title: git使用指南
+categories:
+  - git
+tags:
+  - git
+toc: false
 date: 2019-08-01 23:28:07
-categories: ['git', 'github']
-tags: ['git', 'github']
 ---
+
 ## git使用指南
 [如何在本地环境配置github](https://segmentfault.com/a/1190000002533334)
 ### git创建新目录并提交至远程仓库

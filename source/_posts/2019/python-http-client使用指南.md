@@ -2,7 +2,7 @@
 title: python http.client使用指南
 date: 2019-08-15 21:19:51
 categories: [python]
-tags: [python]
+tags: [python, ssl]
 ---
 
 ## 前言

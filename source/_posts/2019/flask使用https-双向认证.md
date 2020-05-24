@@ -2,7 +2,7 @@
 title: flask/python使用https(双向认证)
 date: 2019-08-11 17:12:55
 categories: ["python", "flask", "https"]
-tags: ["python", "flask", "https"]
+tags: ["python", "flask", "https", "ssl"]
 ---
 ### flask使用https
 可以看到主要通过对ssl_context进行赋值，来启用https

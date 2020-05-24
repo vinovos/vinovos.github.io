@@ -1,8 +1,8 @@
 ---
-title: openssl使用指南
+title: openssl使用指南（证书)
 date: 2019-08-06 21:31:48
-categories: ["openssl"]
-tags: ["openssl"]
+categories: ["ssl"]
+tags: ["ssl"]
 ---
 ### windows安装
 [install-openssl-on-windows](https://tecadmin.net/install-openssl-on-windows/)

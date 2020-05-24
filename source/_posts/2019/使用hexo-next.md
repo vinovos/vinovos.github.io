@@ -34,10 +34,15 @@ tags: ['hexo','next']
 {% post_link slug [title] %}
 ```
 {% link 官方指导 https://hexo.io/zh-cn/docs/tag-plugins#%E5%BC%95%E7%94%A8%E6%96%87%E7%AB%A0 %}
-### 评论系统（gitment）
+### 评论系统（gitment--放弃使用）
 gitment，它是基于 github 开发的，是依靠于 GitHub Issues 的评论系统，Next 主题最新已经支持安装
 评论显示在新建存放评论的仓库中的 issue 中
 前提：更新 Next 主题（5.1.2 主题）
+### 评论系统（Valine）
+[官方文档](https://valine.js.org/)
+注意注册leancloud的时候使用国际版，不用实名认证等
+1、创建应用之后，进入应用设置获取到应用keys
+2、在next的_config.yml中进行设置（根据提醒设置即可）
 #### 注册OAuth application
 在 github 中进行注册，进入 https://github.com/settings/profile，点击左侧 Developer settings，OAuth apps
 得到Client ID 和Client Secret
@@ -55,6 +60,11 @@ Front-matter指的时页面文件开头的部分
 algolia相关插件需研究
 [hexo+next+algolia组合文档(next官方)](https://github.com/theme-next/hexo-theme-next/blob/master/docs/ALGOLIA-SEARCH.md)
 [简书文档](https://www.jianshu.com/p/fa2354d61e37)
+### 打赏
+在next中搜索配置Reward
+reward_comment是你想说的打赏的话
+另外下面是放微信和支付宝的打赏图片
+images目录为`博客根目录/themes/next/source/images/`
 
 ## 参考资料
 [手把手教你用Hexo+Github 搭建属于自己的博客](https://blog.csdn.net/gdutxiaoxu/article/details/53576018)

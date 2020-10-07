@@ -291,6 +291,282 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2020/10/07/java开发项目常用目录结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/10/07/java开发项目常用目录结构/" itemprop="url">java开发项目常用目录结构</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-07T16:00:32+08:00">
+                2020-10-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/10/07/java开发项目常用目录结构/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/10/07/java开发项目常用目录结构/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="基于maven的Java项目目录结构"><a href="#基于maven的Java项目目录结构" class="headerlink" title="基于maven的Java项目目录结构"></a>基于maven的Java项目目录结构</h1><p>目录结构一般如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$&#123;basedir&#125;</span><br><span class="line">        |-- pom.xml</span><br><span class="line">        |-- src</span><br><span class="line">            | |-- main</span><br><span class="line">                | | -- java</span><br><span class="line">                        || com.xxx.xxx 项目源码</span><br><span class="line">                | | `-- resources</span><br><span class="line">                        || 项目配置文件 .xml等</span><br><span class="line">               | | `-- filters</span><br><span class="line">            | | `-- test</span><br><span class="line">                | | `-- java</span><br><span class="line">                | | `-- resources</span><br><span class="line">               | | `-- filters</span><br></pre></td></tr></table></figure>
+
+<p>在使用maven来创建的项目，默认会自动创建src/main/等级别的结构。其中各个目录所存放的内容如下：</p>
+<p>src/main/java 项目的源代码所在的目录<br>src/main/resources 项目的资源文件所在的目录<br>src/main/filters 项目的资源过滤文件所在的目录<br>src/main/webapp 如果是web项目，则该目录是web应用源代码所在的目录，比如html文件和web.xml等都在该目录下。此目录也通常会放在resources目录下，参见下面的<a href="#资源resources文件的结构">资源resources文件的结构</a><br>src/test/java 测试代码所在的目录<br>src/test/resources 测试相关的资源文件所在的目录<br>src/test/filters 测试相关的资源过滤文件所在的目录</p>
+<h1 id="Spring开发项目常用目录结构"><a href="#Spring开发项目常用目录结构" class="headerlink" title="Spring开发项目常用目录结构"></a>Spring开发项目常用目录结构</h1><h2 id="代码层的结构"><a href="#代码层的结构" class="headerlink" title="代码层的结构"></a>代码层的结构</h2><p>1.工程启动类(ApplicationServer.java)推荐放在根目录com.lucky.build包下<br>2.实体类(domain)</p>
+<ul>
+<li>com.lucky.domain （jpa项目）</li>
+<li>com.lucky.pojo（mybatis项目)</li>
+</ul>
+<p>3.数据访问层(Dao)</p>
+<ul>
+<li>com.lucky.repository（jpa项目）</li>
+<li>com.lucky.mapper（mybatis项目）</li>
+</ul>
+<p>4.数据服务层(Service)推荐放在com.lucky.service<br>5.数据服务的实现接口(serviceImpl)放在com.lucky.service.impl<br>6.前端控制器(Controller) 推荐com.lucky.controller<br>7.工具类(utils)置于com.lucky.utils<br>8.常量接口类(constant)置于com.lucky.constant<br>9.配置信息类(config)置于com.lucky.config<br>10.数据传输对象（dto）推荐：com.lucky.dto<br>&emsp;–数据传输对象（Data Transfer Object）用于封装多个实体类（domain）之间的关系，不破坏原有的实体类结构<br>11.视图包装对象（vo）推荐：com.lucky.vo<br>&emsp;– 视图包装对象（View Object）用于封装客户端请求的数据，防止部分数据泄露(如:管理员ID)保证数据安全，不破坏原有的实体类结构。</p>
+<h2 id="资源resources文件的结构"><a href="#资源resources文件的结构" class="headerlink" title="资源resources文件的结构"></a>资源resources文件的结构</h2><p>根目录:src/main/resources<br>1.配置文件(.properties/.json、/resources/application.yml<br>等)放在config文件夹下<br>2.静态资源目录：resources/static/<br>用于存放html、css、js、图片等资源<br>3.视图模板目录：resources/templates/（用于存放jsp、thymeleaf等模板文件）<br>4.mybatis映射文件：resources/mapper/（mybatis项目）<br>5.mybatis配置文件：resources/mapper/config/（mybatis项目）<br>6.国际化(i18n))置于i18n文件夹下<br>7.spring.xml置于META-INF/spring文件夹下<br>8.页面以及js/css/image等置于static文件夹下的各自文件下</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://blog.csdn.net/weixin_41948075/article/details/103870364" target="_blank" rel="noopener">Spring开发项目常用目录结构</a><br><a href="https://zhuanlan.zhihu.com/p/98456775" target="_blank" rel="noopener">基于maven的Java项目目录结构</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2020/09/17/On-java-8阅读-如何阅读一本书/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="vinovos">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vinovos">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/09/17/On-java-8阅读-如何阅读一本书/" itemprop="url">On java 8阅读--如何阅读一本书</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-17T22:09:17+08:00">
+                2020-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/17/On-java-8阅读-如何阅读一本书/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/09/17/On-java-8阅读-如何阅读一本书/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="On-java-8阅读–如何阅读一本书"><a href="#On-java-8阅读–如何阅读一本书" class="headerlink" title="On java 8阅读–如何阅读一本书"></a>On java 8阅读–如何阅读一本书</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2020/05/24/spring-cloud-入门到实战-楠哥B站视频/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1618,336 +1894,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/14/那些恼人的linux小知识点/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/14/那些恼人的linux小知识点/" itemprop="url">那些恼人的linux小知识点</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-14T20:19:58+08:00">
-                2019-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/14/那些恼人的linux小知识点/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/14/那些恼人的linux小知识点/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="1、如-bashrc命令里面的-代表什么"><a href="#1、如-bashrc命令里面的-代表什么" class="headerlink" title="1、如. .bashrc命令里面的.代表什么"></a>1、如. .bashrc命令里面的.代表什么</h3><blockquote>
-<p>.代表的其实是命令source命令，上面的命令等同与source .bashrc</p>
-</blockquote>
-<h3 id="2、copy命令里面copy-src-dest是否真的复制了全部文件过去"><a href="#2、copy命令里面copy-src-dest是否真的复制了全部文件过去" class="headerlink" title="2、copy命令里面copy src/* dest是否真的复制了全部文件过去"></a>2、copy命令里面copy src/* dest是否真的复制了全部文件过去</h3><blockquote>
-<p>copy src/* dest只会复制src目录下的可见文件，而不会复制隐藏文件，要同时复制隐藏文件请使用copy src/. dest</p>
-</blockquote>
-<h3 id="3、在执行了一条命令-usr-bin下的make-，然后删掉了-usr-bin下的make-存在-bin-make-再次执行make，会提示不存在-usr-bin-make，什么原因"><a href="#3、在执行了一条命令-usr-bin下的make-，然后删掉了-usr-bin下的make-存在-bin-make-再次执行make，会提示不存在-usr-bin-make，什么原因" class="headerlink" title="3、在执行了一条命令(/usr/bin下的make)，然后删掉了/usr/bin下的make,存在/bin/make,再次执行make，会提示不存在/usr/bin/make，什么原因"></a>3、在执行了一条命令(/usr/bin下的make)，然后删掉了/usr/bin下的make,存在/bin/make,再次执行make，会提示不存在/usr/bin/make，什么原因</h3><blockquote>
-<p>linux在一个session里面会记录执行过的命令，并记录成hash表，下次直接读取hash，如果删掉了存在的命令文件，就会提示，这时可以执行hash -r命令来刷新hash表</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/14/那些恼人的linux小知识点/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://vinovos.github.io/2019/08/11/python-requests库使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="vinovos">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vinovos">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/11/python-requests库使用/" itemprop="url">python requests库使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T20:16:52+08:00">
-                2019-08-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/requests/" itemprop="url" rel="index">
-                    <span itemprop="name">requests</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/11/python-requests库使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/11/python-requests库使用/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://2.python-requests.org/en/master/" target="_blank" rel="noopener">官方文档</a></p>
-<h3 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h3><h3 id="requests支持客户端私钥加密-requests-support-client-encrypt-key"><a href="#requests支持客户端私钥加密-requests-support-client-encrypt-key" class="headerlink" title="requests支持客户端私钥加密 requests support client encrypt key"></a>requests支持客户端私钥加密 requests support client encrypt key</h3><h3 id="requests支持不验证证书的hostname"><a href="#requests支持不验证证书的hostname" class="headerlink" title="requests支持不验证证书的hostname"></a>requests支持不验证证书的hostname</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> requests.adapters <span class="keyword">import</span> HTTPAdapter</span><br><span class="line"><span class="keyword">from</span> urllib3.util.ssl_ <span class="keyword">import</span> create_urllib3_context</span><br><span class="line"><span class="keyword">from</span> urllib3.poolmanager <span class="keyword">import</span> PoolManager</span><br><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SSLAdapter</span><span class="params">(HTTPAdapter)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    使用方法，见下面的请求方式</span></span><br><span class="line"><span class="string">    目的： 自定义https请求方式，可以使用自定义证书和密钥，支持密钥加密</span></span><br><span class="line"><span class="string">    note: 目前实现的功能不支持校验hostname,如果要校验，请将assert_hostname更改为True，或者删除</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, certfile, keyfile, password=None, *args, **kwargs)</span>:</span></span><br><span class="line">        self._certfile = certfile</span><br><span class="line">        self._keyfile = keyfile</span><br><span class="line">        self._password = password</span><br><span class="line">        <span class="comment"># 如果要校验hostnae，则设置为True</span></span><br><span class="line">        self.assert_hostname = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_poolmanager</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).init_poolmanager(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># init_poolmanager另一种实现方式</span></span><br><span class="line">    <span class="comment"># def init_poolmanager(self, connections, maxsize, block=False):</span></span><br><span class="line">    <span class="comment">#     self.poolmanager = PoolManager(num_pools=connections,</span></span><br><span class="line">    <span class="comment">#                                    maxsize=maxsize,</span></span><br><span class="line">    <span class="comment">#                                    block=block,</span></span><br><span class="line">    <span class="comment">#                                    assert_hostname=self.assert_hostname,</span></span><br><span class="line">    <span class="comment">#                                    ssl_context=self._add_ssl_context()</span></span><br><span class="line">    <span class="comment">#                                    )</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">proxy_manager_for</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self._add_ssl_context(kwargs)</span><br><span class="line">        <span class="keyword">return</span> super(self.__class__, self).proxy_manager_for(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_add_ssl_context</span><span class="params">(self, kwargs=None)</span>:</span></span><br><span class="line">        context = create_urllib3_context()</span><br><span class="line">        context.load_cert_chain(certfile=self._certfile,</span><br><span class="line">                                keyfile=self._keyfile,</span><br><span class="line">                                password=str(self._password))</span><br><span class="line">        <span class="keyword">if</span> kwargs <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            kwargs[<span class="string">'ssl_context'</span>] = context</span><br><span class="line">            kwargs[<span class="string">'assert_hostname'</span>] = self.assert_hostname</span><br><span class="line">        <span class="keyword">return</span> context</span><br><span class="line"></span><br><span class="line">session = requests.Session()</span><br><span class="line">session.mount(<span class="string">'https://'</span>, SSLAdapter(<span class="string">r'cert/client.crt'</span>, <span class="string">r"cert/client-enc.key"</span>, <span class="string">'123456'</span>))</span><br><span class="line">r = session.get(<span class="string">'https://127.0.0.1:5000'</span>, verify=<span class="string">r'cert/ca.crt'</span>)</span><br><span class="line">print(session.get_adapter(<span class="string">'https://127.0.0.1:5000'</span>))</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://stackoverflow.com/questions/51002776/private-encrypted-key-workaround-with-requests-ca-certificate" target="_blank" rel="noopener">Private Encrypted Key Workaround with Requests</a><br><a href="https://stackoverflow.com/questions/22758031/how-to-disable-hostname-checking-in-requests-python" target="_blank" rel="noopener">How to disable hostname checking in requests python</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1998,7 +1944,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
